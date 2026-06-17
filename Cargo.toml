@@ -1,0 +1,35 @@
+[workspace]
+members  = ["examples/*"]
+resolver = "2"
+
+[workspace.package]
+version      = "0.1.0"
+edition      = "2024"
+rust-version = "1.85"
+license      = "MIT OR Apache-2.0"
+repository   = "https://github.com/throgxyz/examples"
+publish      = false
+
+[workspace.lints.rust]
+rust_2018_idioms      = { level = "deny", priority = -1 }
+unused_must_use       = "deny"
+unreachable_pub       = "warn"
+
+[workspace.lints.clippy]
+doc_markdown          = "warn"
+explicit_iter_loop    = "warn"
+redundant_clone       = "warn"
+use_self              = "warn"
+
+[workspace.dependencies]
+tronz            = { version = "0.1", features = ["signer-mnemonic", "signer-keystore"] }
+tokio            = { version = "1", features = ["rt-multi-thread", "macros"] }
+anyhow           = "1"
+tempfile         = "3"
+serde_json       = "1"
+alloy-primitives = { version = "1", default-features = false, features = ["std"] }
+alloy-dyn-abi    = { version = "1", default-features = false, features = ["std"] }
+alloy-json-abi   = { version = "1", default-features = false, features = ["std"] }
+k256             = "0.13"
+hex              = "0.4"
+rand             = "0.8"
