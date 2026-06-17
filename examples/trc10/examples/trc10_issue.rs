@@ -106,7 +106,9 @@ async fn main() -> anyhow::Result<()> {
         println!("    cargo run -p examples-trc10 --example trc10_transfer");
     } else {
         println!("\n  (token confirmed but ID not yet indexed — query shortly)");
-        println!("  Run: TRON_ADDRESS={issuer} cargo run -p examples-trc10 --example trc10_balance");
+        println!(
+            "  Run: TRON_ADDRESS={issuer} cargo run -p examples-trc10 --example trc10_balance"
+        );
     }
 
     Ok(())
