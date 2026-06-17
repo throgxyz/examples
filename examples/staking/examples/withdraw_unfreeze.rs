@@ -40,23 +40,15 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
     for u in &account.unfrozen_v2 {
-        println!(
-            "  {:?}  {} TRX  expires {} ms",
-            u.resource,
-            u.amount.as_trx(),
-            u.expire_time_ms
-        );
+        println!("  {:?}  {} TRX  expires {} ms", u.resource, u.amount.as_trx(), u.expire_time_ms);
     }
 
     // ── Check how much is withdrawable now ────────────────────────────────────
 
-    let now_ms = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)?
-        .as_millis() as i64;
+    let now_ms =
+        std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH)?.as_millis() as i64;
 
-    let withdrawable = provider
-        .get_can_withdraw_unfreeze_amount(me, now_ms)
-        .await?;
+    let withdrawable = provider.get_can_withdraw_unfreeze_amount(me, now_ms).await?;
     println!("\n=== Withdrawable now ===");
     println!("  {} TRX", withdrawable.as_trx());
 
@@ -81,10 +73,7 @@ async fn main() -> anyhow::Result<()> {
 
     let balance_after = provider.get_account(me).await?.balance;
     println!("\n  balance after  : {} TRX", balance_after.as_trx());
-    println!(
-        "  gained         : {} TRX",
-        (balance_after - balance_before).as_trx()
-    );
+    println!("  gained         : {} TRX", (balance_after - balance_before).as_trx());
 
     Ok(())
 }

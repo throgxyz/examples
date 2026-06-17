@@ -33,10 +33,7 @@ async fn main() -> anyhow::Result<()> {
     // the well-known TronGrid constants (TRONGRID_MAINNET, TRONGRID_NILE).
     // The API key is injected as the `tron-pro-api-key` gRPC metadata header
     // on every request when set.
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(node_url.as_str())
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(node_url.as_str()).await?;
 
     // ── Smoke test ────────────────────────────────────────────────────────────
 

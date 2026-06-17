@@ -28,10 +28,7 @@ async fn main() -> anyhow::Result<()> {
 
     let address: tronz::Address = addr_str.parse()?;
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     // ── Get token metadata ────────────────────────────────────────────────────
 

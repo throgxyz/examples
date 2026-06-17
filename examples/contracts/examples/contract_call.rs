@@ -38,10 +38,8 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Approach 1: Trc20Instance (typed, no ABI file) ───────────────────────
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key.clone())
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key.clone()).on_grpc(TRONGRID_NILE).await?;
 
     let token = provider.trc20(contract);
     println!("=== Trc20Instance (typed calls) ===");

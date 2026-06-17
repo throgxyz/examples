@@ -39,11 +39,7 @@ async fn main() -> anyhow::Result<()> {
 
     println!("=== Account {} ===", me);
     println!("  balance        : {} TRX", balance_before.as_trx());
-    println!(
-        "  pending reward : {} TRX ({} sun)",
-        reward.as_trx(),
-        reward.as_sun()
-    );
+    println!("  pending reward : {} TRX ({} sun)", reward.as_trx(), reward.as_sun());
 
     if reward.as_sun() == 0 {
         println!("\n  no reward to claim");
@@ -66,10 +62,7 @@ async fn main() -> anyhow::Result<()> {
     let balance_after = provider.get_account(me).await?.balance;
     println!("\n=== After ===");
     println!("  balance : {} TRX", balance_after.as_trx());
-    println!(
-        "  gained  : {} TRX",
-        (balance_after - balance_before).as_trx()
-    );
+    println!("  gained  : {} TRX", (balance_after - balance_before).as_trx());
 
     let remaining = provider.get_reward(me).await?;
     println!("  pending reward remaining : {} sun", remaining.as_sun());

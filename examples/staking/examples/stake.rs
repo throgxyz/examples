@@ -22,10 +22,8 @@ use tronz::{
 async fn main() -> anyhow::Result<()> {
     let key_hex = std::env::var("TRON_PRIVATE_KEY").expect("TRON_PRIVATE_KEY env var required");
     let api_key = std::env::var("TRON_API_KEY").ok();
-    let freeze_sun: i64 = std::env::var("TRON_FREEZE_SUN")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(10_000_000); // 10 TRX
+    let freeze_sun: i64 =
+        std::env::var("TRON_FREEZE_SUN").ok().and_then(|s| s.parse().ok()).unwrap_or(10_000_000); // 10 TRX
 
     let signer = LocalSigner::from_hex(&key_hex)?;
     let me = signer.address();
@@ -47,14 +45,8 @@ async fn main() -> anyhow::Result<()> {
     // ── Current resources ─────────────────────────────────────────────────────
     let res_before = provider.get_account_resource(me).await?;
     println!("=== Resources before ===");
-    println!(
-        "  energy    : {}/{}",
-        res_before.energy_used, res_before.energy_limit
-    );
-    println!(
-        "  bandwidth : {}/{}",
-        res_before.bandwidth_used, res_before.bandwidth_limit
-    );
+    println!("  energy    : {}/{}", res_before.energy_used, res_before.energy_limit);
+    println!("  bandwidth : {}/{}", res_before.bandwidth_used, res_before.bandwidth_limit);
 
     // ── Pending rewards ───────────────────────────────────────────────────────
     let reward = provider.get_reward(me).await?;
@@ -71,12 +63,8 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Freeze (stake) for energy ─────────────────────────────────────────────
     println!("\n=== Freeze {} for Energy ===", amount);
-    let pending = provider
-        .freeze_balance()
-        .amount(amount)
-        .resource(ResourceCode::Energy)
-        .send()
-        .await?;
+    let pending =
+        provider.freeze_balance().amount(amount).resource(ResourceCode::Energy).send().await?;
     println!("  tx_id : 0x{}", hex::encode(pending.tx_id()));
     let info = pending.get_receipt().await?;
     println!("  status: {:?}", info.status);
@@ -84,9 +72,7 @@ async fn main() -> anyhow::Result<()> {
     // ── Delegate energy (if requested) ────────────────────────────────────────
     if let Some(receiver) = delegate_to {
         println!("\n=== Delegate {} energy to {} ===", amount, receiver);
-        let max = provider
-            .get_can_delegate_max(me, ResourceCode::Energy)
-            .await?;
+        let max = provider.get_can_delegate_max(me, ResourceCode::Energy).await?;
         println!("  max delegatable energy: {} TRX", max.as_trx());
 
         let delegate_amount = amount.min(max);
@@ -109,14 +95,8 @@ async fn main() -> anyhow::Result<()> {
     // ── Resources after ───────────────────────────────────────────────────────
     let res_after = provider.get_account_resource(me).await?;
     println!("\n=== Resources after ===");
-    println!(
-        "  energy    : {}/{}",
-        res_after.energy_used, res_after.energy_limit
-    );
-    println!(
-        "  bandwidth : {}/{}",
-        res_after.bandwidth_used, res_after.bandwidth_limit
-    );
+    println!("  energy    : {}/{}", res_after.energy_used, res_after.energy_limit);
+    println!("  bandwidth : {}/{}", res_after.bandwidth_used, res_after.bandwidth_limit);
 
     Ok(())
 }

@@ -36,10 +36,7 @@ async fn main() -> anyhow::Result<()> {
     let tx_id: B256 = B256::from_slice(&tx_id_bytes);
     let contract: tronz::Address = contract_str.parse()?;
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     // ── Fetch receipt ─────────────────────────────────────────────────────────
 
@@ -51,10 +48,7 @@ async fn main() -> anyhow::Result<()> {
     // ── Approach 1: Static decode via sol!-generated type ────────────────────
 
     println!("\n=== Static decode (ITRC20::Transfer) ===");
-    println!(
-        "  Transfer topic0 : 0x{}",
-        hex::encode(ITRC20::Transfer::SIGNATURE_HASH)
-    );
+    println!("  Transfer topic0 : 0x{}", hex::encode(ITRC20::Transfer::SIGNATURE_HASH));
 
     let transfers: Vec<_> =
         decode_logs::<ITRC20::Transfer>(&info.logs).collect::<Result<_, _>>()?;
@@ -78,10 +72,7 @@ async fn main() -> anyhow::Result<()> {
         for (i, a) in approvals.iter().enumerate() {
             let owner: tronz::Address = a.owner.into();
             let spender: tronz::Address = a.spender.into();
-            println!(
-                "  [{}] owner={owner} spender={spender} value={}",
-                i, a.value
-            );
+            println!("  [{}] owner={owner} spender={spender} value={}", i, a.value);
         }
     }
 

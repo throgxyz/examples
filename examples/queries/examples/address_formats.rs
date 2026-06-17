@@ -33,11 +33,7 @@ fn main() -> anyhow::Result<()> {
     println!("  base58  : {}", addr.to_base58());
     println!("  hex     : {}", addr.to_hex());
     println!("  evm     : 0x{}", hex::encode(addr.as_evm_bytes()));
-    println!(
-        "  prefix  : 0x{:02x} (must be 0x{:02x})",
-        addr.as_bytes()[0],
-        ADDRESS_PREFIX
-    );
+    println!("  prefix  : 0x{:02x} (must be 0x{:02x})", addr.as_bytes()[0], ADDRESS_PREFIX);
 
     // ── Parse hex ────────────────────────────────────────────────────────────
 

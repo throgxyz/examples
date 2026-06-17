@@ -26,14 +26,10 @@ async fn main() -> anyhow::Result<()> {
     let key_hex = std::env::var("TRON_PRIVATE_KEY").expect("TRON_PRIVATE_KEY env var required");
     let to_str = std::env::var("TRON_DELEGATE_TO").expect("TRON_DELEGATE_TO env var required");
     let api_key = std::env::var("TRON_API_KEY").ok();
-    let freeze_sun: i64 = std::env::var("TRON_FREEZE_SUN")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(10_000_000);
-    let lock_days: i64 = std::env::var("TRON_LOCK_DAYS")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(0);
+    let freeze_sun: i64 =
+        std::env::var("TRON_FREEZE_SUN").ok().and_then(|s| s.parse().ok()).unwrap_or(10_000_000);
+    let lock_days: i64 =
+        std::env::var("TRON_LOCK_DAYS").ok().and_then(|s| s.parse().ok()).unwrap_or(0);
 
     let signer = LocalSigner::from_hex(&key_hex)?;
     let me = signer.address();
@@ -50,9 +46,7 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Check how much is delegatable ─────────────────────────────────────────
 
-    let max = provider
-        .get_can_delegate_max(me, ResourceCode::Energy)
-        .await?;
+    let max = provider.get_can_delegate_max(me, ResourceCode::Energy).await?;
     println!("=== Delegation ===");
     println!("  from            : {me}");
     println!("  to              : {receiver}");
@@ -89,11 +83,8 @@ async fn main() -> anyhow::Result<()> {
 
     println!("\n=== Delegating {} energy to {} ===", amount, receiver);
 
-    let mut builder = provider
-        .delegate_resource()
-        .resource(ResourceCode::Energy)
-        .amount(amount)
-        .to(receiver);
+    let mut builder =
+        provider.delegate_resource().resource(ResourceCode::Energy).amount(amount).to(receiver);
 
     if lock_days > 0 {
         // Lock period is in seconds: 1 day = 86_400 seconds.
@@ -115,10 +106,7 @@ async fn main() -> anyhow::Result<()> {
     for d in &after {
         if d.energy_amount.as_sun() > 0 {
             println!("\n=== Confirmed ===");
-            println!(
-                "  energy delegated to {receiver}: {} TRX",
-                d.energy_amount.as_trx()
-            );
+            println!("  energy delegated to {receiver}: {} TRX", d.energy_amount.as_trx());
         }
     }
 

@@ -40,19 +40,11 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    let total_pending: tronz::Trx = account
-        .unfrozen_v2
-        .iter()
-        .map(|u| u.amount)
-        .fold(tronz::Trx::ZERO, |acc, a| acc + a);
+    let total_pending: tronz::Trx =
+        account.unfrozen_v2.iter().map(|u| u.amount).fold(tronz::Trx::ZERO, |acc, a| acc + a);
 
     for u in &account.unfrozen_v2 {
-        println!(
-            "  {:?}  {} TRX  expires {} ms",
-            u.resource,
-            u.amount.as_trx(),
-            u.expire_time_ms
-        );
+        println!("  {:?}  {} TRX  expires {} ms", u.resource, u.amount.as_trx(), u.expire_time_ms);
     }
     println!("  total pending : {} TRX", total_pending.as_trx());
 
@@ -71,11 +63,8 @@ async fn main() -> anyhow::Result<()> {
     // ── After ─────────────────────────────────────────────────────────────────
 
     let after = provider.get_account(me).await?;
-    let re_staked: tronz::Trx = after
-        .frozen_v2
-        .iter()
-        .map(|f| f.amount)
-        .fold(tronz::Trx::ZERO, |acc, a| acc + a);
+    let re_staked: tronz::Trx =
+        after.frozen_v2.iter().map(|f| f.amount).fold(tronz::Trx::ZERO, |acc, a| acc + a);
 
     println!("\n=== After ===");
     println!("  pending unfreezes : {}", after.unfrozen_v2.len());

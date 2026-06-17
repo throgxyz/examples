@@ -31,10 +31,7 @@ async fn main() -> anyhow::Result<()> {
 
     let contract: tronz::Address = contract_str.parse()?;
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     // ── Estimate energy for `balanceOf` ───────────────────────────────────────
     //
@@ -74,10 +71,7 @@ async fn main() -> anyhow::Result<()> {
     .abi_encode()
     .into();
 
-    let transfer_energy = instance
-        .call_raw(transfer_calldata)
-        .estimate_energy()
-        .await?;
+    let transfer_energy = instance.call_raw(transfer_calldata).estimate_energy().await?;
     println!("\n  function   : transfer(address,uint256)");
     println!("  energy     : {transfer_energy} units");
 

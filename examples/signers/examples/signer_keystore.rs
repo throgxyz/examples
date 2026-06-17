@@ -45,10 +45,7 @@ fn main() -> anyhow::Result<()> {
     println!("  version  : {}", ks.version);
     println!("  id       : {}", ks.id);
     println!("  address  : {}", ks.address);
-    println!(
-        "  kdf      : {} (N={})",
-        ks.crypto.kdf, ks.crypto.kdfparams.n
-    );
+    println!("  kdf      : {} (N={})", ks.crypto.kdf, ks.crypto.kdfparams.n);
     println!("  cipher   : {}", ks.crypto.cipher);
 
     // ── 4. Decrypt and verify ─────────────────────────────────────────────────
@@ -57,11 +54,7 @@ fn main() -> anyhow::Result<()> {
     let recovered = LocalSigner::decrypt_keystore(&path, password)?;
     println!("  recovered address : {}", recovered.address());
 
-    assert_eq!(
-        signer.address(),
-        recovered.address(),
-        "round-trip address mismatch"
-    );
+    assert_eq!(signer.address(), recovered.address(), "round-trip address mismatch");
     println!("  addresses match   : true");
 
     // ── 5. Wrong password gives a clear error ─────────────────────────────────

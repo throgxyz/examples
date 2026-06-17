@@ -23,10 +23,7 @@ async fn main() -> anyhow::Result<()> {
     let address = addr_str.parse().expect("valid TRON address");
 
     // ── Connect ──────────────────────────────────────────────────────────────
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     // ── Latest block ─────────────────────────────────────────────────────────
     let block = provider.get_now_block().await?;
@@ -50,14 +47,8 @@ async fn main() -> anyhow::Result<()> {
     // ── Resources ─────────────────────────────────────────────────────────────
     let res = provider.get_account_resource(address).await?;
     println!("\n=== Resources ===");
-    println!(
-        "  bandwidth  : {}/{} used/limit",
-        res.bandwidth_used, res.bandwidth_limit
-    );
-    println!(
-        "  energy     : {}/{} used/limit",
-        res.energy_used, res.energy_limit
-    );
+    println!("  bandwidth  : {}/{} used/limit", res.bandwidth_used, res.bandwidth_limit);
+    println!("  energy     : {}/{} used/limit", res.energy_used, res.energy_limit);
     println!("  tron_power : {} used", res.tron_power_used.as_sun());
 
     // ── Delegations ───────────────────────────────────────────────────────────
@@ -67,12 +58,8 @@ async fn main() -> anyhow::Result<()> {
     println!("  receiving from  : {} accounts", idx.from_accounts.len());
 
     // ── Max delegatable ───────────────────────────────────────────────────────
-    let max_energy = provider
-        .get_can_delegate_max(address, ResourceCode::Energy)
-        .await?;
-    let max_bw = provider
-        .get_can_delegate_max(address, ResourceCode::Bandwidth)
-        .await?;
+    let max_energy = provider.get_can_delegate_max(address, ResourceCode::Energy).await?;
+    let max_bw = provider.get_can_delegate_max(address, ResourceCode::Bandwidth).await?;
     println!("\n=== Max delegatable ===");
     println!("  energy    : {} TRX", max_energy.as_trx());
     println!("  bandwidth : {} TRX", max_bw.as_trx());

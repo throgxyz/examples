@@ -23,10 +23,7 @@ async fn main() -> anyhow::Result<()> {
     let key_hex = std::env::var("TRON_PRIVATE_KEY").expect("TRON_PRIVATE_KEY env var required");
     let sr_str = std::env::var("TRON_TO").expect("TRON_TO env var required (SR candidate address)");
     let api_key = std::env::var("TRON_API_KEY").ok();
-    let votes: i64 = std::env::var("TRON_VOTES")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(1);
+    let votes: i64 = std::env::var("TRON_VOTES").ok().and_then(|s| s.parse().ok()).unwrap_or(1);
 
     let signer = LocalSigner::from_hex(&key_hex)?;
     let me = signer.address();
@@ -47,10 +44,7 @@ async fn main() -> anyhow::Result<()> {
     println!("  TRON Power limit : {} sun", res.tron_power_limit.as_sun());
 
     let tron_power = res.tron_power_limit.as_sun() - res.tron_power_used.as_sun();
-    println!(
-        "  available TP     : {tron_power} sun ({} TP)",
-        tron_power / 1_000_000
-    );
+    println!("  available TP     : {tron_power} sun ({} TP)", tron_power / 1_000_000);
 
     if tron_power < votes * 1_000_000 {
         anyhow::bail!(

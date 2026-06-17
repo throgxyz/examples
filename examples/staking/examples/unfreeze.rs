@@ -24,10 +24,8 @@ use tronz::{
 async fn main() -> anyhow::Result<()> {
     let key_hex = std::env::var("TRON_PRIVATE_KEY").expect("TRON_PRIVATE_KEY env var required");
     let api_key = std::env::var("TRON_API_KEY").ok();
-    let freeze_sun: i64 = std::env::var("TRON_FREEZE_SUN")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(10_000_000);
+    let freeze_sun: i64 =
+        std::env::var("TRON_FREEZE_SUN").ok().and_then(|s| s.parse().ok()).unwrap_or(10_000_000);
 
     let signer = LocalSigner::from_hex(&key_hex)?;
     let me = signer.address();
@@ -53,10 +51,7 @@ async fn main() -> anyhow::Result<()> {
 
     println!("=== Account {} ===", me);
     println!("  staked for energy : {} TRX", staked_energy.as_trx());
-    println!(
-        "  in-progress unfreeze slots : {}",
-        account.unfrozen_v2.len()
-    );
+    println!("  in-progress unfreeze slots : {}", account.unfrozen_v2.len());
     for u in &account.unfrozen_v2 {
         println!(
             "    {:?}  {} TRX  expires {} ms",
@@ -84,12 +79,8 @@ async fn main() -> anyhow::Result<()> {
     // ── Unfreeze ──────────────────────────────────────────────────────────────
 
     println!("\n=== Unfreeze {} energy ===", amount);
-    let pending = provider
-        .unfreeze_balance()
-        .amount(amount)
-        .resource(ResourceCode::Energy)
-        .send()
-        .await?;
+    let pending =
+        provider.unfreeze_balance().amount(amount).resource(ResourceCode::Energy).send().await?;
 
     println!("  tx_id  : 0x{}", hex::encode(pending.tx_id()));
     println!("  waiting for confirmation…");

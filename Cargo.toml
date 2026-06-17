@@ -20,13 +20,11 @@ unreachable_pub       = "warn"
 missing_debug_implementations = "warn"
 
 [workspace.lints.clippy]
-doc_markdown          = "warn"
 explicit_iter_loop    = "warn"
 redundant_clone       = "warn"
 use_self              = "warn"
 manual_assert         = "warn"
 needless_continue     = "warn"
-enum_glob_use         = "warn"
 
 [workspace.dependencies]
 tronz            = { version = "0.1", features = ["signer-mnemonic", "signer-keystore"] }

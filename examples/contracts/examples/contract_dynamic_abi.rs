@@ -87,10 +87,7 @@ async fn main() -> anyhow::Result<()> {
     let contract: tronz::Address = contract_str.parse()?;
     let addr: tronz::Address = addr_str.parse()?;
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     // ── Build Interface ───────────────────────────────────────────────────────
 
@@ -98,14 +95,8 @@ async fn main() -> anyhow::Result<()> {
     let interface = Interface::new(abi);
 
     println!("=== Interface ===");
-    println!(
-        "  functions : {:?}",
-        interface.abi().functions.keys().collect::<Vec<_>>()
-    );
-    println!(
-        "  events    : {:?}",
-        interface.abi().events.keys().collect::<Vec<_>>()
-    );
+    println!("  functions : {:?}", interface.abi().functions.keys().collect::<Vec<_>>());
+    println!("  events    : {:?}", interface.abi().events.keys().collect::<Vec<_>>());
 
     // Bind the interface to the contract address.
     let instance = provider.contract(contract, interface);
@@ -135,10 +126,7 @@ async fn main() -> anyhow::Result<()> {
     println!("  raw units : {balance}");
     if decimals > 0 {
         let divisor = 10u128.pow(decimals.into());
-        println!(
-            "  display   : {:.6} {symbol}",
-            balance as f64 / divisor as f64
-        );
+        println!("  display   : {:.6} {symbol}", balance as f64 / divisor as f64);
     }
 
     Ok(())

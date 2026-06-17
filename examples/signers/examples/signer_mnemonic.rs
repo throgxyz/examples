@@ -22,10 +22,7 @@ fn main() -> anyhow::Result<()> {
     let phrase = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
 
     // Default path: m/44'/195'/0'/0/0  (TRON coin type = 195)
-    let signer = MnemonicBuilder::<English>::default()
-        .phrase(phrase)
-        .index(0)?
-        .build()?;
+    let signer = MnemonicBuilder::<English>::default().phrase(phrase).index(0)?.build()?;
 
     println!("=== Derive from phrase ===");
     println!("  phrase  : {phrase}");
@@ -37,19 +34,14 @@ fn main() -> anyhow::Result<()> {
 
     println!("\n=== First 3 accounts from same phrase ===");
     for i in 0u32..3 {
-        let s = MnemonicBuilder::<English>::default()
-            .phrase(phrase)
-            .index(i)?
-            .build()?;
+        let s = MnemonicBuilder::<English>::default().phrase(phrase).index(i)?.build()?;
         println!("  index {i}: {}", s.address());
     }
 
     // ── 3. Efficient multi-account derivation via parent key ───────────────────
 
     // build_parent_key() derives once to m/44'/195'/0'/0, then child() is cheap.
-    let parent = MnemonicBuilder::<English>::default()
-        .phrase(phrase)
-        .build_parent_key()?;
+    let parent = MnemonicBuilder::<English>::default().phrase(phrase).build_parent_key()?;
 
     println!("\n=== Same 3 accounts via parent key (more efficient) ===");
     for i in 0u32..3 {
@@ -59,9 +51,8 @@ fn main() -> anyhow::Result<()> {
 
     // ── 4. Generate a fresh random 24-word mnemonic ────────────────────────────
 
-    let (new_signer, new_phrase) = MnemonicBuilder::<English>::default()
-        .word_count(24)
-        .build_random()?;
+    let (new_signer, new_phrase) =
+        MnemonicBuilder::<English>::default().word_count(24).build_random()?;
 
     println!("\n=== Random 24-word mnemonic ===");
     println!("  phrase  : {new_phrase}");
@@ -79,17 +70,11 @@ fn main() -> anyhow::Result<()> {
     println!("\n=== With BIP-39 passphrase ===");
     println!("  address (no passphrase) : {}", signer.address());
     println!("  address (with pass)     : {}", with_pass.address());
-    println!(
-        "  different addresses     : {}",
-        signer.address() != with_pass.address()
-    );
+    println!("  different addresses     : {}", signer.address() != with_pass.address());
 
     println!("\n=== Save phrase to fund on Nile testnet ===");
     println!("  1. Write down the phrase and keep it safe.");
-    println!(
-        "  2. Get Nile TRX: https://nileex.io/ → send to {}",
-        new_signer.address()
-    );
+    println!("  2. Get Nile TRX: https://nileex.io/ → send to {}", new_signer.address());
 
     Ok(())
 }

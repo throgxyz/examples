@@ -57,10 +57,7 @@ fn main() -> anyhow::Result<()> {
     // but in practice amounts never reach that boundary).
     let small = Trx::from_sun(1)?;
     let large = Trx::from_sun(i64::MAX)?;
-    println!(
-        "\n  saturating add  : small + MAX = {}",
-        (small + large).as_sun()
-    );
+    println!("\n  saturating add  : small + MAX = {}", (small + large).as_sun());
     println!("  saturating sub  : 1 - MAX = {}", (small - large).as_sun());
 
     // ── Checked arithmetic ────────────────────────────────────────────────────
@@ -82,12 +79,8 @@ fn main() -> anyhow::Result<()> {
 
     println!("\n=== Ordering ===");
 
-    let amounts = [
-        Trx::from_trx(100.0)?,
-        Trx::from_trx(1.5)?,
-        Trx::from_trx(50.0)?,
-        Trx::from_sun(0)?,
-    ];
+    let amounts =
+        [Trx::from_trx(100.0)?, Trx::from_trx(1.5)?, Trx::from_trx(50.0)?, Trx::from_sun(0)?];
 
     let min = amounts.iter().min().copied().unwrap();
     let max = amounts.iter().max().copied().unwrap();

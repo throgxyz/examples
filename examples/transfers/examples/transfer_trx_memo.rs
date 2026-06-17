@@ -23,10 +23,8 @@ use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigne
 async fn main() -> anyhow::Result<()> {
     let key_hex = std::env::var("TRON_PRIVATE_KEY").expect("TRON_PRIVATE_KEY env var required");
     let api_key = std::env::var("TRON_API_KEY").ok();
-    let amount_sun: i64 = std::env::var("TRON_AMOUNT_SUN")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(1);
+    let amount_sun: i64 =
+        std::env::var("TRON_AMOUNT_SUN").ok().and_then(|s| s.parse().ok()).unwrap_or(1);
     let memo = std::env::var("TRON_MEMO").unwrap_or_else(|_| "tronz example transfer".to_owned());
 
     let signer = LocalSigner::from_hex(&key_hex)?;
@@ -58,13 +56,7 @@ async fn main() -> anyhow::Result<()> {
     // `.memo()` accepts any `Into<Vec<u8>>` — bytes are stored verbatim.
     // String memos should be UTF-8, but the protocol does not enforce this.
 
-    let pending = provider
-        .send_trx()
-        .to(to)
-        .amount(amount)
-        .memo(memo.as_bytes())
-        .send()
-        .await?;
+    let pending = provider.send_trx().to(to).amount(amount).memo(memo.as_bytes()).send().await?;
 
     let tx_id = pending.tx_id();
     println!("\n  tx_id  : 0x{}", hex::encode(tx_id));
@@ -77,10 +69,7 @@ async fn main() -> anyhow::Result<()> {
     //
     // The memo is stored in `Transaction.raw_data.data` inside the protobuf.
     // Use a block explorer or the full `get_transaction` gRPC call to inspect it.
-    println!(
-        "\n  explorer : https://nile.tronscan.org/#/transaction/{}",
-        hex::encode(tx_id)
-    );
+    println!("\n  explorer : https://nile.tronscan.org/#/transaction/{}", hex::encode(tx_id));
 
     Ok(())
 }

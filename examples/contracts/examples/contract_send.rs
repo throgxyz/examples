@@ -64,12 +64,8 @@ async fn main() -> anyhow::Result<()> {
     // The address must be the EVM form (20 bytes) inside the ABI encoding —
     // tronz::Address's `Into<alloy_primitives::Address>` strips the 0x41 prefix.
 
-    let calldata: tronz::primitives::Bytes = ITRC20::transferCall {
-        to: to.into(),
-        amount,
-    }
-    .abi_encode()
-    .into();
+    let calldata: tronz::primitives::Bytes =
+        ITRC20::transferCall { to: to.into(), amount }.abi_encode().into();
 
     println!("  calldata : 0x{}", hex::encode(&calldata));
 

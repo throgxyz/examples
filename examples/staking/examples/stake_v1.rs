@@ -26,10 +26,8 @@ use tronz::{
 async fn main() -> anyhow::Result<()> {
     let key_hex = std::env::var("TRON_PRIVATE_KEY").expect("TRON_PRIVATE_KEY env var required");
     let api_key = std::env::var("TRON_API_KEY").ok();
-    let freeze_sun: i64 = std::env::var("TRON_FREEZE_SUN")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(10_000_000); // 10 TRX
+    let freeze_sun: i64 =
+        std::env::var("TRON_FREEZE_SUN").ok().and_then(|s| s.parse().ok()).unwrap_or(10_000_000); // 10 TRX
 
     let signer = LocalSigner::from_hex(&key_hex)?;
     let me = signer.address();
@@ -51,22 +49,13 @@ async fn main() -> anyhow::Result<()> {
     // ── Resources before ──────────────────────────────────────────────────────
     let res_before = provider.get_account_resource(me).await?;
     println!("=== Resources before ===");
-    println!(
-        "  energy    : {}/{}",
-        res_before.energy_used, res_before.energy_limit
-    );
-    println!(
-        "  bandwidth : {}/{}",
-        res_before.bandwidth_used, res_before.bandwidth_limit
-    );
+    println!("  energy    : {}/{}", res_before.energy_used, res_before.energy_limit);
+    println!("  bandwidth : {}/{}", res_before.bandwidth_used, res_before.bandwidth_limit);
 
     // ── Freeze V1 (stake 1.0) for energy ─────────────────────────────────────
     // frozen_duration must be 3 days on mainnet (the builder defaults to 3).
     println!("\n=== Freeze V1 {} for Energy ===", amount);
-    let mut freeze = provider
-        .freeze_balance_v1()
-        .amount(amount)
-        .resource(ResourceCode::Energy);
+    let mut freeze = provider.freeze_balance_v1().amount(amount).resource(ResourceCode::Energy);
 
     if let Some(receiver) = delegate_to {
         println!("  delegating to : {receiver}");
@@ -81,22 +70,12 @@ async fn main() -> anyhow::Result<()> {
     // ── Resources after freeze ────────────────────────────────────────────────
     let res_after = provider.get_account_resource(me).await?;
     println!("\n=== Resources after freeze ===");
-    println!(
-        "  energy    : {}/{}",
-        res_after.energy_used, res_after.energy_limit
-    );
-    println!(
-        "  bandwidth : {}/{}",
-        res_after.bandwidth_used, res_after.bandwidth_limit
-    );
+    println!("  energy    : {}/{}", res_after.energy_used, res_after.energy_limit);
+    println!("  bandwidth : {}/{}", res_after.bandwidth_used, res_after.bandwidth_limit);
 
     // ── Unfreeze V1 (releases everything immediately) ─────────────────────────
     println!("\n=== Unfreeze V1 energy ===");
-    let pending = provider
-        .unfreeze_balance_v1()
-        .resource(ResourceCode::Energy)
-        .send()
-        .await?;
+    let pending = provider.unfreeze_balance_v1().resource(ResourceCode::Energy).send().await?;
     println!("  tx_id : 0x{}", hex::encode(pending.tx_id()));
     let info = pending.get_receipt().await?;
     println!("  status: {:?}", info.status);

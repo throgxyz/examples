@@ -18,10 +18,8 @@ use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigne
 async fn main() -> anyhow::Result<()> {
     let key_hex = std::env::var("TRON_PRIVATE_KEY").expect("TRON_PRIVATE_KEY env var required");
     let api_key = std::env::var("TRON_API_KEY").ok();
-    let amount_sun: i64 = std::env::var("TRON_AMOUNT_SUN")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(1_000_000); // 1 TRX default
+    let amount_sun: i64 =
+        std::env::var("TRON_AMOUNT_SUN").ok().and_then(|s| s.parse().ok()).unwrap_or(1_000_000); // 1 TRX default
 
     let signer = LocalSigner::from_hex(&key_hex)?;
     let from = signer.address();

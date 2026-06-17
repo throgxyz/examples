@@ -28,10 +28,7 @@ async fn main() -> anyhow::Result<()> {
     let to_str = std::env::var("TRON_TO").expect("TRON_TO env var required");
     let token_id = std::env::var("TRON_TOKEN_ID").expect("TRON_TOKEN_ID env var required");
     let api_key = std::env::var("TRON_API_KEY").ok();
-    let amount: i64 = std::env::var("TRON_AMOUNT")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(1);
+    let amount: i64 = std::env::var("TRON_AMOUNT").ok().and_then(|s| s.parse().ok()).unwrap_or(1);
 
     let signer = LocalSigner::from_hex(&key_hex)?;
     let from = signer.address();
@@ -63,13 +60,8 @@ async fn main() -> anyhow::Result<()> {
     // ── Send ──────────────────────────────────────────────────────────────────
 
     println!("\n  broadcasting…");
-    let pending = provider
-        .transfer_trc10()
-        .to(to)
-        .token_id(&token_id)
-        .amount(amount)
-        .send()
-        .await?;
+    let pending =
+        provider.transfer_trc10().to(to).token_id(&token_id).amount(amount).send().await?;
 
     println!("  tx_id  : 0x{}", hex::encode(pending.tx_id()));
     println!("  waiting for confirmation…");

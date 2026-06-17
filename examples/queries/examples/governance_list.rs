@@ -19,16 +19,11 @@ use tronz::{ProviderBuilder, TRONGRID_NILE, providers::ext::GovernanceApi as _};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    let proposal_id: i64 = std::env::var("TRON_PROPOSAL_ID")
-        .ok()
-        .and_then(|s| s.parse().ok())
-        .unwrap_or(1);
+    let proposal_id: i64 =
+        std::env::var("TRON_PROPOSAL_ID").ok().and_then(|s| s.parse().ok()).unwrap_or(1);
     let api_key = std::env::var("TRON_API_KEY").ok();
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     // ── List all proposals ────────────────────────────────────────────────────
 
@@ -36,10 +31,8 @@ async fn main() -> anyhow::Result<()> {
 
     println!("=== Governance Proposals ({} total) ===", proposals.len());
     for p in &proposals {
-        let proposer = p
-            .proposer_address
-            .map(|a| a.to_string())
-            .unwrap_or_else(|| "<unknown>".into());
+        let proposer =
+            p.proposer_address.map(|a| a.to_string()).unwrap_or_else(|| "<unknown>".into());
         println!(
             "  #{:<4}  state={:?}  params={}  proposer={}",
             p.proposal_id,

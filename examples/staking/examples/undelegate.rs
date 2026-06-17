@@ -42,10 +42,8 @@ async fn main() -> anyhow::Result<()> {
     let delegations = provider.get_delegated_resource(me, receiver).await?;
     println!("=== Current delegation from {} to {} ===", me, receiver);
 
-    let delegated_energy = delegations
-        .iter()
-        .map(|d| d.energy_amount)
-        .fold(Trx::ZERO, |acc, a| acc + a);
+    let delegated_energy =
+        delegations.iter().map(|d| d.energy_amount).fold(Trx::ZERO, |acc, a| acc + a);
 
     if delegated_energy.as_sun() == 0 {
         println!("  no energy delegated to {receiver}");
@@ -93,10 +91,7 @@ async fn main() -> anyhow::Result<()> {
     // ── Verify ───────────────────────────────────────────────────────────────
 
     let after = provider.get_delegated_resource(me, receiver).await?;
-    let remaining = after
-        .iter()
-        .map(|d| d.energy_amount)
-        .fold(Trx::ZERO, |acc, a| acc + a);
+    let remaining = after.iter().map(|d| d.energy_amount).fold(Trx::ZERO, |acc, a| acc + a);
     println!("\n=== After ===");
     println!("  energy still delegated : {} TRX", remaining.as_trx());
 

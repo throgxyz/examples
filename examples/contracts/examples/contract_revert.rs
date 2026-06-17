@@ -33,10 +33,7 @@ async fn main() -> anyhow::Result<()> {
 
     let contract: tronz::Address = contract_str.parse()?;
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     // ── Trigger a revert via constant call ────────────────────────────────────
     //
@@ -44,12 +41,10 @@ async fn main() -> anyhow::Result<()> {
     // will typically revert on a real ERC-20 (invalid recipient). The node
     // executes the function and returns the revert data without broadcasting.
 
-    let calldata: tronz::primitives::Bytes = ITRC20::transferCall {
-        to: alloy_primitives::Address::ZERO,
-        amount: tronz::U256::ZERO,
-    }
-    .abi_encode()
-    .into();
+    let calldata: tronz::primitives::Bytes =
+        ITRC20::transferCall { to: alloy_primitives::Address::ZERO, amount: tronz::U256::ZERO }
+            .abi_encode()
+            .into();
 
     let instance = provider.contract(contract, Interface::empty());
     let result = instance.call_raw(calldata).call().await;

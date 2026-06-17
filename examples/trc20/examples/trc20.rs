@@ -36,10 +36,8 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Read-only section (no signer needed) ─────────────────────────────────
     {
-        let ro_provider = ProviderBuilder::new()
-            .maybe_api_key(api_key.clone())
-            .on_grpc(TRONGRID_NILE)
-            .await?;
+        let ro_provider =
+            ProviderBuilder::new().maybe_api_key(api_key.clone()).on_grpc(TRONGRID_NILE).await?;
         let token = ro_provider.trc20(contract);
 
         println!("=== TRC20 token {} ===", contract);

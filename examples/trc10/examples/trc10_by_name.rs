@@ -22,10 +22,7 @@ async fn main() -> anyhow::Result<()> {
     let token_name = std::env::var("TRON_TOKEN_NAME").unwrap_or_else(|_| "BitTorrent".to_owned());
     let api_key = std::env::var("TRON_API_KEY").ok();
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     // ── Exact match (first token with this name) ──────────────────────────────
 

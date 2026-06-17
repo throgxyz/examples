@@ -153,13 +153,8 @@ async fn main() -> anyhow::Result<()> {
     let instance = provider.contract(contract_addr, interface);
 
     let vals = instance.call("count", &[]).await?;
-    let count = vals.first().and_then(|v| {
-        if let DynSolValue::Uint(n, _) = v {
-            Some(*n)
-        } else {
-            None
-        }
-    });
+    let count =
+        vals.first().and_then(|v| if let DynSolValue::Uint(n, _) = v { Some(*n) } else { None });
     println!("\n=== Initial state ===");
     println!("  count() = {:?}", count);
 

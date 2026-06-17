@@ -33,10 +33,7 @@ async fn main() -> anyhow::Result<()> {
     let tx_id_bytes = hex::decode(tx_id_hex.trim_start_matches("0x"))?;
     let tx_id: B256 = B256::from_slice(&tx_id_bytes);
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     // ── Fetch receipt ─────────────────────────────────────────────────────────
 

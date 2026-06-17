@@ -93,10 +93,7 @@ async fn main() -> anyhow::Result<()> {
         id: 0,
         permission_name: "owner".to_owned(),
         threshold: 1,
-        keys: vec![PermissionKey {
-            address: me,
-            weight: 1,
-        }],
+        keys: vec![PermissionKey { address: me, weight: 1 }],
     };
 
     // Active permission: both keys, threshold 1 (1-of-2).
@@ -105,14 +102,8 @@ async fn main() -> anyhow::Result<()> {
         permission_name: "active".to_owned(),
         threshold: 1,
         keys: vec![
-            PermissionKey {
-                address: me,
-                weight: 1,
-            },
-            PermissionKey {
-                address: second_key,
-                weight: 1,
-            },
+            PermissionKey { address: me, weight: 1 },
+            PermissionKey { address: second_key, weight: 1 },
         ],
     };
 

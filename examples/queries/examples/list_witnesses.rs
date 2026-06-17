@@ -18,10 +18,7 @@ use tronz::{ProviderBuilder, TRONGRID_NILE, TronProvider};
 async fn main() -> anyhow::Result<()> {
     let api_key = std::env::var("TRON_API_KEY").ok();
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     let witnesses = provider.list_witnesses().await?;
 
@@ -47,11 +44,7 @@ async fn main() -> anyhow::Result<()> {
             w.vote_count,
             w.total_produced,
             w.total_missed,
-            if w.url.len() > 40 {
-                &w.url[..40]
-            } else {
-                &w.url
-            },
+            if w.url.len() > 40 { &w.url[..40] } else { &w.url },
         );
 
         // Only show top 30.

@@ -24,10 +24,7 @@ async fn main() -> anyhow::Result<()> {
     let token_id = std::env::var("TRON_TOKEN_ID").unwrap_or_else(|_| "1000001".to_owned());
     let api_key = std::env::var("TRON_API_KEY").ok();
 
-    let provider = ProviderBuilder::new()
-        .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
-        .await?;
+    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
 
     // ── Fetch token metadata ──────────────────────────────────────────────────
 
