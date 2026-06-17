@@ -1,0 +1,9 @@
+# GitHub Linguist treats files under `examples/` as documentation and excludes
+# them from the repository language statistics. Since every Rust source in this
+# repo lives under `examples/`, that left the repo showing as 100% Shell.
+# Force the example sources to count as detectable Rust.
+*.rs linguist-detectable=true
+*.rs linguist-documentation=false
+
+# Keep generated/manifest files out of the stats.
+Cargo.lock linguist-generated=true
