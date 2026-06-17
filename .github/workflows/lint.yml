@@ -1,4 +1,6 @@
-name: lint
+# Runs `clippy` and `cargo fmt` checks.
+
+name: Lint
 
 on:
   push:
@@ -8,16 +10,30 @@ on:
 env:
   CARGO_TERM_COLOR: always
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   clippy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+      - run: cargo +nightly clippy --examples --all-features
+        env:
+          RUSTFLAGS: -Dwarnings
+
+  fmt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@nightly
         with:
-          components: clippy, rustfmt
-      - uses: Swatinem/rust-cache@v2
-      - name: clippy
-        run: RUSTFLAGS="-Dwarnings" cargo clippy --examples --all-features
-      - name: fmt
-        run: cargo fmt --all --check
+          components: rustfmt
+      - run: cargo +nightly fmt --all --check

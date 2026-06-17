@@ -1,0 +1,5 @@
+[default.extend-words]
+# TRON-specific terms
+"Tron" = "Tron"
+"TRX" = "TRX"
+"tronz" = "tronz"

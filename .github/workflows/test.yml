@@ -1,4 +1,6 @@
-name: test
+# Runs build checks.
+
+name: Test
 
 on:
   push:
@@ -8,12 +10,19 @@ on:
 env:
   CARGO_TERM_COLOR: always
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
-      - name: build examples
-        run: cargo build --examples
+        with:
+          cache-on-failure: true
+      - name: build all examples
+        run: cargo build --examples --all-features
