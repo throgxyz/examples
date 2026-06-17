@@ -16,7 +16,7 @@
 //!
 //! ```bash
 //! TRON_TX_ID=<txid> TRON_CONTRACT=<contract> \
-//!   cargo run -p examples --example decode_log
+//!   cargo run -p examples-contracts --example decode_log
 //! ```
 
 use alloy_json_abi::JsonAbi;

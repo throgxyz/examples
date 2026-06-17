@@ -12,7 +12,7 @@
 //!   TRON_API_KEY  — TronGrid API key
 //!
 //! ```bash
-//! cargo run -p examples --example trc10_balance
+//! cargo run -p examples-trc10 --example trc10_balance
 //! ```
 
 use tronz::{ProviderBuilder, TRONGRID_NILE, TronProvider, providers::ext::Trc10Api as _};

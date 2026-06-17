@@ -18,7 +18,7 @@
 //!   TRON_API_KEY  — TronGrid API key
 //!
 //! ```bash
-//! TRON_CONTRACT=<addr> cargo run -p examples --example contract_revert
+//! TRON_CONTRACT=<addr> cargo run -p examples-contracts --example contract_revert
 //! ```
 
 use tronz::{

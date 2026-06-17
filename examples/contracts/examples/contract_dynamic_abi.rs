@@ -19,7 +19,7 @@
 //! ```bash
 //! TRON_CONTRACT=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t \
 //! TRON_ADDRESS=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t \
-//!   cargo run -p examples --example contract_dynamic_abi
+//!   cargo run -p examples-contracts --example contract_dynamic_abi
 //! ```
 
 use alloy_dyn_abi::DynSolValue;

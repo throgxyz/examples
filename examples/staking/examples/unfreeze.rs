@@ -12,7 +12,7 @@
 //!   TRON_FREEZE_SUN  — amount to unfreeze in sun (default: 10 TRX = 10_000_000)
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> cargo run -p examples --example unfreeze
+//! TRON_PRIVATE_KEY=<key> cargo run -p examples-staking --example unfreeze
 //! ```
 
 use tronz::{

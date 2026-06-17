@@ -13,7 +13,7 @@
 //!   TRON_VOTES       — number of votes to cast (default: 1)
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> TRON_TO=<sr-addr> cargo run -p examples --example vote_witness
+//! TRON_PRIVATE_KEY=<key> TRON_TO=<sr-addr> cargo run -p examples-staking --example vote_witness
 //! ```
 
 use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner};

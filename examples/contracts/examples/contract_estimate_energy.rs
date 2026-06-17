@@ -16,7 +16,7 @@
 //!   TRON_ADDRESS  — caller address for the simulation (defaults to contract addr)
 //!
 //! ```bash
-//! TRON_CONTRACT=<addr> cargo run -p examples --example contract_estimate_energy
+//! TRON_CONTRACT=<addr> cargo run -p examples-contracts --example contract_estimate_energy
 //! ```
 
 use tronz::{

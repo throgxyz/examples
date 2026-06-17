@@ -15,7 +15,7 @@
 //!   TRON_API_KEY — TronGrid API key
 //!
 //! ```bash
-//! TRON_TX_ID=<txid> cargo run -p examples --example trc20_decode_transfer_event
+//! TRON_TX_ID=<txid> cargo run -p examples-trc20 --example trc20_decode_transfer_event
 //! ```
 
 // Re-use the static ABI binding from tronz_contract.

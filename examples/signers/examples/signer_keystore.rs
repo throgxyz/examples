@@ -8,7 +8,7 @@
 //! No network access required.
 //!
 //! ```bash
-//! cargo run -p examples --example signer_keystore
+//! cargo run -p examples-signers --example signer_keystore
 //! ```
 //!
 //! The keystore format is compatible with TronLink, go-ethereum, and gotron-sdk.

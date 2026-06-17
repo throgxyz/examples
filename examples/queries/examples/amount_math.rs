@@ -18,7 +18,7 @@
 //! No network access required.
 //!
 //! ```bash
-//! cargo run -p examples --example amount_math
+//! cargo run -p examples-queries --example amount_math
 //! ```
 
 use tronz::{Trx, U256, primitives::SUN_PER_TRX};

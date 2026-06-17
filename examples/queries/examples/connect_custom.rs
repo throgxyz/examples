@@ -13,7 +13,7 @@
 //!   TRON_API_KEY  — TronGrid API key (optional; useful if fronting through TronGrid)
 //!
 //! ```bash
-//! cargo run -p examples --example connect_custom
+//! cargo run -p examples-queries --example connect_custom
 //! ```
 
 use tronz::{ProviderBuilder, TronProvider};

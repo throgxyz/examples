@@ -18,7 +18,7 @@
 //!
 //! ```bash
 //! TRON_PRIVATE_KEY=<key> TRON_CONTRACT=<addr> TRON_TO=<addr> \
-//!   cargo run -p examples --example contract_send
+//!   cargo run -p examples-contracts --example contract_send
 //! ```
 
 use tronz::{

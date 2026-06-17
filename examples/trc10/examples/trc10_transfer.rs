@@ -15,7 +15,7 @@
 //!
 //! ```bash
 //! TRON_PRIVATE_KEY=<key> TRON_TO=<addr> TRON_TOKEN_ID=<id> \
-//!   cargo run -p examples --example trc10_transfer
+//!   cargo run -p examples-trc10 --example trc10_transfer
 //! ```
 
 use tronz::{

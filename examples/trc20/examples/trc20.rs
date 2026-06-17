@@ -16,7 +16,7 @@
 //!   TRON_API_KEY     — TronGrid API key
 //!
 //! ```
-//! TRON_CONTRACT=<addr> TRON_ADDRESS=<addr> cargo run -p examples --example trc20
+//! TRON_CONTRACT=<addr> TRON_ADDRESS=<addr> cargo run -p examples-trc20 --example trc20
 //! ```
 
 use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronSigner, U256, contract::Trc20Ext};

@@ -10,7 +10,7 @@
 //!   TRON_API_KEY     — TronGrid API key
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> cargo run -p examples --example contract_deploy
+//! TRON_PRIVATE_KEY=<key> cargo run -p examples-contracts --example contract_deploy
 //! ```
 
 use tronz::{

@@ -21,7 +21,7 @@
 //! ```bash
 //! TRON_PRIVATE_KEY=<spender-key> TRON_CONTRACT=<addr> \
 //!   TRON_FROM=<owner-addr> TRON_TO=<recipient> \
-//!   cargo run -p examples --example trc20_transfer_from
+//!   cargo run -p examples-trc20 --example trc20_transfer_from
 //! ```
 
 use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronSigner, U256, contract::Trc20Ext};

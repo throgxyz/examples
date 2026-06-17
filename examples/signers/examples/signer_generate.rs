@@ -7,7 +7,7 @@
 //! No network access required.
 //!
 //! ```bash
-//! cargo run -p examples --example signer_generate
+//! cargo run -p examples-signers --example signer_generate
 //! ```
 //!
 //! WARNING: This example prints private keys to stdout — only use it for
@@ -49,7 +49,7 @@ fn main() -> anyhow::Result<()> {
     println!("  2. Get Nile TRX from the faucet: https://nileex.io/");
     println!("     (send to: {address})");
     println!(
-        "  3. Run examples with: TRON_PRIVATE_KEY={key_hex} cargo run -p examples --example transfer_trx"
+        "  3. Run examples with: TRON_PRIVATE_KEY={key_hex} cargo run -p examples-signers --example transfer_trx"
     );
 
     Ok(())

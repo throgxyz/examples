@@ -9,7 +9,7 @@
 //!   TRON_AMOUNT_SUN   — amount in sun (default: 1_000_000 = 1 TRX)
 //!
 //! ```
-//! TRON_PRIVATE_KEY=<key> cargo run -p examples --example transfer_trx
+//! TRON_PRIVATE_KEY=<key> cargo run -p examples-transfers --example transfer_trx
 //! ```
 
 use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx};

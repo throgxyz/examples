@@ -14,7 +14,7 @@
 //!   TRON_DELEGATE_TO — address to delegate energy to (inline delegation)
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> cargo run -p examples --example stake_v1
+//! TRON_PRIVATE_KEY=<key> cargo run -p examples-staking --example stake_v1
 //! ```
 
 use tronz::{

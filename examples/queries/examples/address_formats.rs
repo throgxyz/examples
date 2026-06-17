@@ -14,7 +14,7 @@
 //! No network access required.
 //!
 //! ```bash
-//! cargo run -p examples --example address_formats
+//! cargo run -p examples-queries --example address_formats
 //! ```
 
 use tronz::{

@@ -10,7 +10,7 @@
 //!   TRON_FREEZE_SUN  — amount to freeze in sun (default: 10_000_000 = 10 TRX)
 //!
 //! ```
-//! TRON_PRIVATE_KEY=<key> cargo run -p examples --example stake
+//! TRON_PRIVATE_KEY=<key> cargo run -p examples-staking --example stake
 //! ```
 
 use tronz::{

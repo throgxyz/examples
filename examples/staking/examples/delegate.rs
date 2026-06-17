@@ -13,7 +13,7 @@
 //!   TRON_LOCK_DAYS   — lock delegation for N days (0–10; default: 0 = no lock)
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> TRON_DELEGATE_TO=<addr> cargo run -p examples --example delegate
+//! TRON_PRIVATE_KEY=<key> TRON_DELEGATE_TO=<addr> cargo run -p examples-staking --example delegate
 //! ```
 
 use tronz::{

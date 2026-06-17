@@ -15,7 +15,7 @@
 //!
 //! ```bash
 //! TRON_PRIVATE_KEY=<key> TRON_CONTRACT=<addr> TRON_TO=<spender> \
-//!   cargo run -p examples --example trc20_approve
+//!   cargo run -p examples-trc20 --example trc20_approve
 //! ```
 
 use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronSigner, U256, contract::Trc20Ext};

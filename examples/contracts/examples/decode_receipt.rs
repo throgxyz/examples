@@ -12,7 +12,7 @@
 //!   TRON_API_KEY — TronGrid API key
 //!
 //! ```bash
-//! TRON_TX_ID=<txid> cargo run -p examples --example decode_receipt
+//! TRON_TX_ID=<txid> cargo run -p examples-contracts --example decode_receipt
 //! ```
 
 use tronz::{ProviderBuilder, TRONGRID_NILE, TronProvider, primitives::B256};

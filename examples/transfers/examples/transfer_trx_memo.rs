@@ -14,7 +14,7 @@
 //!   TRON_MEMO        — memo string (default: "tronz example transfer")
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> cargo run -p examples --example transfer_trx_memo
+//! TRON_PRIVATE_KEY=<key> cargo run -p examples-transfers --example transfer_trx_memo
 //! ```
 
 use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx};

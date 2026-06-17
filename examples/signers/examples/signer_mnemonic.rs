@@ -8,7 +8,7 @@
 //! No network access required.
 //!
 //! ```bash
-//! cargo run -p examples --example signer_mnemonic
+//! cargo run -p examples-signers --example signer_mnemonic
 //! ```
 //!
 //! WARNING: This example prints private keys to stdout — only use it for

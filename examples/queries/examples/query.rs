@@ -3,7 +3,7 @@
 //! No private key required.
 //!
 //! ```
-//! cargo run -p examples --example query
+//! cargo run -p examples-queries --example query
 //! ```
 //!
 //! Optional env:

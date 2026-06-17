@@ -11,7 +11,7 @@
 //!   TRON_API_KEY     — TronGrid API key
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> cargo run -p examples --example cancel_unfreeze
+//! TRON_PRIVATE_KEY=<key> cargo run -p examples-staking --example cancel_unfreeze
 //! ```
 
 use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner};

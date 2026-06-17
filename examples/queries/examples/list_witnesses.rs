@@ -9,7 +9,7 @@
 //!   TRON_API_KEY — TronGrid API key
 //!
 //! ```bash
-//! cargo run -p examples --example list_witnesses
+//! cargo run -p examples-queries --example list_witnesses
 //! ```
 
 use tronz::{ProviderBuilder, TRONGRID_NILE, TronProvider};

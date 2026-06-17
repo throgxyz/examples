@@ -9,7 +9,7 @@
 //! No network access required.
 //!
 //! ```bash
-//! cargo run -p examples --example signer_local
+//! cargo run -p examples-signers --example signer_local
 //! ```
 //!
 //! Optional env:

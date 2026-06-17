@@ -12,7 +12,7 @@
 //!   TRON_API_KEY     — TronGrid API key
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> TRON_TO=<new-addr> cargo run -p examples --example account_create
+//! TRON_PRIVATE_KEY=<key> TRON_TO=<new-addr> cargo run -p examples-accounts --example account_create
 //! ```
 
 use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx};

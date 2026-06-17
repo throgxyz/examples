@@ -12,7 +12,7 @@
 //!   TRON_FREEZE_SUN  — amount to reclaim in sun (default: all available energy)
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> TRON_DELEGATE_TO=<addr> cargo run -p examples --example undelegate
+//! TRON_PRIVATE_KEY=<key> TRON_DELEGATE_TO=<addr> cargo run -p examples-staking --example undelegate
 //! ```
 
 use tronz::{

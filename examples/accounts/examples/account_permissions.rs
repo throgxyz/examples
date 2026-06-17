@@ -25,7 +25,7 @@
 //!
 //! ```bash
 //! TRON_PRIVATE_KEY=<key> TRON_TO=<second-key-addr> \
-//!   cargo run -p examples --example account_permissions
+//!   cargo run -p examples-accounts --example account_permissions
 //! ```
 
 use tronz::{

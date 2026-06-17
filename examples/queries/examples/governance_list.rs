@@ -11,8 +11,8 @@
 //!   TRON_API_KEY     — TronGrid API key
 //!
 //! ```bash
-//! cargo run -p examples --example governance_list
-//! TRON_PROPOSAL_ID=3 cargo run -p examples --example governance_list
+//! cargo run -p examples-queries --example governance_list
+//! TRON_PROPOSAL_ID=3 cargo run -p examples-queries --example governance_list
 //! ```
 
 use tronz::{ProviderBuilder, TRONGRID_NILE, providers::ext::GovernanceApi as _};

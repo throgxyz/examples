@@ -15,7 +15,7 @@
 //!   TRON_TOKEN_URL   — project URL          (default: "https://github.com/throgxyz/tronz")
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> cargo run -p examples --example trc10_issue
+//! TRON_PRIVATE_KEY=<key> cargo run -p examples-trc10 --example trc10_issue
 //! ```
 
 use tronz::{
@@ -103,10 +103,10 @@ async fn main() -> anyhow::Result<()> {
             "  TRON_PRIVATE_KEY=<key> TRON_TOKEN_ID={} TRON_TO=<addr> TRON_AMOUNT=1000000 \\",
             token.id
         );
-        println!("    cargo run -p examples --example trc10_transfer");
+        println!("    cargo run -p examples-trc10 --example trc10_transfer");
     } else {
         println!("\n  (token confirmed but ID not yet indexed — query shortly)");
-        println!("  Run: TRON_ADDRESS={issuer} cargo run -p examples --example trc10_balance");
+        println!("  Run: TRON_ADDRESS={issuer} cargo run -p examples-trc10 --example trc10_balance");
     }
 
     Ok(())
