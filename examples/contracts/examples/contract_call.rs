@@ -12,13 +12,13 @@
 //! No private key required (read-only).
 //!
 //! Required env:
-//!   TRON_CONTRACT — TRC20 contract address (e.g. USDT on mainnet)
+//!   TRON_CONTRACT — TRC20 contract address (e.g. test USDT on Nile)
 //!
 //! Optional env:
 //!   TRON_API_KEY  — TronGrid API key
 //!
 //! ```bash
-//! TRON_CONTRACT=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t \
+//! TRON_CONTRACT=TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf \
 //!   cargo run -p examples-contracts --example contract_call
 //! ```
 

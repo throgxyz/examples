@@ -4,6 +4,8 @@ Runnable examples for the [tronz](https://github.com/throgxyz/tronz) TRON SDK.
 
 All examples target the [Nile testnet](https://nileex.io). Read-only examples run without a private key; examples that send transactions require `TRON_PRIVATE_KEY=<hex>`.
 
+Set `TRON_API_KEY` to use a TronGrid API key.
+
 ## Usage
 
 ```sh
@@ -13,6 +15,20 @@ cargo run -p examples-queries --example query
 # With private key
 TRON_PRIVATE_KEY=<hex> cargo run -p examples-staking --example stake
 ```
+
+## Environment Variables
+
+| Variable | Description |
+| --- | --- |
+| `TRON_PRIVATE_KEY` | Funded Nile private key for write examples. |
+| `TRON_API_KEY` | Optional TronGrid API key. |
+| `TRON_ADDRESS` | Address to query in read examples. |
+| `TRON_TO` | Recipient or target address in write examples. |
+| `TRON_CONTRACT` | TRC20 or smart contract address. |
+| `TRON_TX_ID` | Transaction id used by receipt/log decoding examples. |
+| `TRON_AMOUNT_SUN` | TRX amount in sun for TRX transfer examples. |
+| `TRON_FREEZE_SUN` | Amount to stake in staking examples. |
+| `TRON_TOKEN_ID` | Numeric TRC10 token id. |
 
 ## Overview
 

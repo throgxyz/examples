@@ -49,7 +49,7 @@ fn main() -> anyhow::Result<()> {
     println!("  2. Get Nile TRX from the faucet: https://nileex.io/");
     println!("     (send to: {address})");
     println!(
-        "  3. Run examples with: TRON_PRIVATE_KEY={key_hex} cargo run -p examples-signers --example transfer_trx"
+        "  3. Run examples with: TRON_PRIVATE_KEY={key_hex} cargo run -p examples-transfers --example transfer_trx"
     );
 
     Ok(())

@@ -13,6 +13,7 @@ Thanks for your interest in contributing! All contributions are welcome.
 - All examples target the **Nile testnet** by default.
 - Read-only examples must run without any environment variables.
 - Examples that send transactions require `TRON_PRIVATE_KEY=<hex>`.
+- Use `TRON_API_KEY` for optional TronGrid API key support.
 - Use `anyhow::Result<()>` as the return type of `main`.
 - Keep examples focused — one concept per file.
 
