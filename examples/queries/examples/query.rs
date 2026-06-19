@@ -1,4 +1,4 @@
-//! Read-only queries against the TronGrid mainnet.
+//! Read-only queries against the TronGrid Nile testnet.
 //!
 //! No private key required.
 //!
@@ -12,8 +12,7 @@
 
 use tronz::{ProviderBuilder, TRONGRID_NILE, TronProvider, primitives::ResourceCode};
 
-// A well-known TRON address with on-chain activity (USDT TRC20 contract on
-// mainnet; also present on Nile testnet with TRX balance).
+// A well-known TRON address that is present on Nile testnet with TRX balance.
 const DEFAULT_ADDR: &str = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
 
 #[tokio::main]
