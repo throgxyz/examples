@@ -51,7 +51,7 @@ async fn main() -> anyhow::Result<()> {
     // ── Pending rewards ───────────────────────────────────────────────────────
     let reward = provider.get_reward(me).await?;
     println!("\n=== Pending reward ===");
-    println!("  {} TRX", reward.as_trx());
+    println!("  {} TRX", reward);
 
     if reward.as_sun() > 0 {
         println!("  Claiming rewards…");
@@ -73,7 +73,7 @@ async fn main() -> anyhow::Result<()> {
     if let Some(receiver) = delegate_to {
         println!("\n=== Delegate {} energy to {} ===", amount, receiver);
         let max = provider.get_can_delegate_max(me, ResourceCode::Energy).await?;
-        println!("  max delegatable energy: {} TRX", max.as_trx());
+        println!("  max delegatable energy: {} TRX", max);
 
         let delegate_amount = amount.min(max);
         if delegate_amount.as_sun() > 0 {

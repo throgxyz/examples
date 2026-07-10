@@ -42,7 +42,7 @@ async fn main() -> anyhow::Result<()> {
     let payer_account = provider.get_account(payer).await?;
     println!("=== Payer ===");
     println!("  address : {payer}");
-    println!("  balance : {} TRX", payer_account.balance.as_trx());
+    println!("  balance : {} TRX", payer_account.balance);
 
     if payer_account.balance < Trx::from_sun(ACTIVATION_FEE_SUN)? {
         anyhow::bail!(
@@ -83,7 +83,7 @@ async fn main() -> anyhow::Result<()> {
     let after = provider.get_account(new_addr).await?;
     println!("\n=== Result ===");
     println!("  activated : {}", after.is_activated);
-    println!("  balance   : {} TRX", after.balance.as_trx());
+    println!("  balance   : {} TRX", after.balance);
 
     Ok(())
 }

@@ -44,9 +44,9 @@ async fn main() -> anyhow::Result<()> {
         account.unfrozen_v2.iter().map(|u| u.amount).fold(tronz::Trx::ZERO, |acc, a| acc + a);
 
     for u in &account.unfrozen_v2 {
-        println!("  {:?}  {} TRX  expires {} ms", u.resource, u.amount.as_trx(), u.expire_time_ms);
+        println!("  {:?}  {} TRX  expires {} ms", u.resource, u.amount, u.expire_time_ms);
     }
-    println!("  total pending : {} TRX", total_pending.as_trx());
+    println!("  total pending : {} TRX", total_pending);
 
     // ── Cancel all ────────────────────────────────────────────────────────────
     //
@@ -68,7 +68,7 @@ async fn main() -> anyhow::Result<()> {
 
     println!("\n=== After ===");
     println!("  pending unfreezes : {}", after.unfrozen_v2.len());
-    println!("  total re-staked   : {} TRX", re_staked.as_trx());
+    println!("  total re-staked   : {} TRX", re_staked);
 
     Ok(())
 }

@@ -50,7 +50,7 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    println!("  energy delegated : {} TRX", delegated_energy.as_trx());
+    println!("  energy delegated : {} TRX", delegated_energy);
 
     // Check for lock expiry.
     let locked = delegations.iter().any(|d| d.energy_expire_time_ms > 0);
@@ -71,7 +71,7 @@ async fn main() -> anyhow::Result<()> {
         .map(|sun| Trx::from_sun(sun).expect("valid sun amount"))
         .unwrap_or(delegated_energy);
 
-    println!("  reclaiming       : {} TRX", amount.as_trx());
+    println!("  reclaiming       : {} TRX", amount);
 
     // ── Undelegate ────────────────────────────────────────────────────────────
 
@@ -93,7 +93,7 @@ async fn main() -> anyhow::Result<()> {
     let after = provider.get_delegated_resource(me, receiver).await?;
     let remaining = after.iter().map(|d| d.energy_amount).fold(Trx::ZERO, |acc, a| acc + a);
     println!("\n=== After ===");
-    println!("  energy still delegated : {} TRX", remaining.as_trx());
+    println!("  energy still delegated : {} TRX", remaining);
 
     Ok(())
 }

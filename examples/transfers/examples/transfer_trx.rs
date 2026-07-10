@@ -44,7 +44,7 @@ async fn main() -> anyhow::Result<()> {
     println!("From    : {from}");
     println!("To      : {to}");
     println!("Amount  : {amount}");
-    println!("Balance : {} TRX (before)", before.as_trx());
+    println!("Balance : {} TRX (before)", before);
 
     // ── Build and send ────────────────────────────────────────────────────────
     println!("\nBroadcasting…");
@@ -66,7 +66,7 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Post-flight balance ───────────────────────────────────────────────────
     let after = provider.get_account(from).await?.balance;
-    println!("\nBalance : {} TRX (after)", after.as_trx());
+    println!("\nBalance : {} TRX (after)", after);
 
     Ok(())
 }

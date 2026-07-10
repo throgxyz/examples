@@ -51,13 +51,13 @@ async fn main() -> anyhow::Result<()> {
     println!("  from            : {me}");
     println!("  to              : {receiver}");
     println!("  requested       : {amount}");
-    println!("  max delegatable : {} TRX (energy)", max.as_trx());
+    println!("  max delegatable : {} TRX (energy)", max);
 
     if amount > max {
         anyhow::bail!(
             "requested {} TRX but max delegatable is {} TRX — stake more energy first",
-            amount.as_trx(),
-            max.as_trx()
+            amount,
+            max
         );
     }
 
@@ -68,13 +68,13 @@ async fn main() -> anyhow::Result<()> {
         println!("\n=== Existing delegations to {receiver} ===");
         for d in &current {
             if d.energy_amount.as_sun() > 0 {
-                println!("  energy    : {} TRX", d.energy_amount.as_trx());
+                println!("  energy    : {} TRX", d.energy_amount);
                 if d.energy_expire_time_ms > 0 {
                     println!("  locked until: {} ms", d.energy_expire_time_ms);
                 }
             }
             if d.bandwidth_amount.as_sun() > 0 {
-                println!("  bandwidth : {} TRX", d.bandwidth_amount.as_trx());
+                println!("  bandwidth : {} TRX", d.bandwidth_amount);
             }
         }
     }
@@ -106,7 +106,7 @@ async fn main() -> anyhow::Result<()> {
     for d in &after {
         if d.energy_amount.as_sun() > 0 {
             println!("\n=== Confirmed ===");
-            println!("  energy delegated to {receiver}: {} TRX", d.energy_amount.as_trx());
+            println!("  energy delegated to {receiver}: {} TRX", d.energy_amount);
         }
     }
 

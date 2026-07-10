@@ -32,7 +32,10 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Get token metadata ────────────────────────────────────────────────────
 
-    let token_info = provider.get_asset_info(&token_id).await?;
+    let token_info = provider
+        .get_asset_info(&token_id)
+        .await?
+        .ok_or_else(|| anyhow::anyhow!("token #{token_id} not found"))?;
     println!("=== Token #{} ({}) ===", token_info.id, token_info.abbr);
     println!("  decimals : {}", token_info.decimals);
 

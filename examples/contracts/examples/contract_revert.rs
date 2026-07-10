@@ -71,7 +71,7 @@ async fn main() -> anyhow::Result<()> {
         Ok(output) => {
             println!("  succeeded — output: 0x{}", hex::encode(&output));
         }
-        Err(ContractError::ContractRevert(data)) => {
+        Err(ContractError::Revert(data)) => {
             println!("  reverted! raw data: 0x{}", hex::encode(&data));
             decode_revert(&data);
         }

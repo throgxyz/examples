@@ -40,7 +40,7 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
     for u in &account.unfrozen_v2 {
-        println!("  {:?}  {} TRX  expires {} ms", u.resource, u.amount.as_trx(), u.expire_time_ms);
+        println!("  {:?}  {} TRX  expires {} ms", u.resource, u.amount, u.expire_time_ms);
     }
 
     // ── Check how much is withdrawable now ────────────────────────────────────
@@ -50,7 +50,7 @@ async fn main() -> anyhow::Result<()> {
 
     let withdrawable = provider.get_can_withdraw_unfreeze_amount(me, now_ms).await?;
     println!("\n=== Withdrawable now ===");
-    println!("  {} TRX", withdrawable.as_trx());
+    println!("  {} TRX", withdrawable);
 
     if withdrawable.as_sun() == 0 {
         println!("  nothing withdrawable yet — check back after the lock expires");
@@ -60,7 +60,7 @@ async fn main() -> anyhow::Result<()> {
     // ── Withdraw ──────────────────────────────────────────────────────────────
 
     let balance_before = provider.get_account(me).await?.balance;
-    println!("\n  balance before : {} TRX", balance_before.as_trx());
+    println!("\n  balance before : {} TRX", balance_before);
 
     println!("  broadcasting withdraw…");
     let pending = provider.withdraw_expire_unfreeze().send().await?;
@@ -72,8 +72,8 @@ async fn main() -> anyhow::Result<()> {
     // ── After ─────────────────────────────────────────────────────────────────
 
     let balance_after = provider.get_account(me).await?.balance;
-    println!("\n  balance after  : {} TRX", balance_after.as_trx());
-    println!("  gained         : {} TRX", (balance_after - balance_before).as_trx());
+    println!("\n  balance after  : {} TRX", balance_after);
+    println!("  gained         : {} TRX", (balance_after - balance_before));
 
     Ok(())
 }

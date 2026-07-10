@@ -2,6 +2,8 @@
 
 Runnable examples for the [tronz](https://github.com/throgxyz/tronz) TRON SDK.
 
+These examples track **tronz `0.3.0`**.
+
 All examples target the [Nile testnet](https://nileex.io). Read-only examples run without a private key; examples that send transactions require `TRON_PRIVATE_KEY=<hex>`.
 
 ## Usage
@@ -30,6 +32,7 @@ This repository contains the following examples:
   - [x] [Sign and verify a hash](./examples/signers/examples/signer_local.rs)
   - [x] [Derive from a BIP-39 mnemonic](./examples/signers/examples/signer_mnemonic.rs)
   - [x] [Encrypt and decrypt a keystore](./examples/signers/examples/signer_keystore.rs)
+  - [x] [Sign with an AWS KMS key](./examples/signers/examples/signer_aws.rs)
 - [x] Transfers
   - [x] [Send TRX](./examples/transfers/examples/transfer_trx.rs)
   - [x] [Send TRX with a memo](./examples/transfers/examples/transfer_trx_memo.rs)
@@ -53,6 +56,9 @@ This repository contains the following examples:
   - [x] [Handle revert errors](./examples/contracts/examples/contract_revert.rs)
   - [x] [Decode an event log](./examples/contracts/examples/decode_log.rs)
   - [x] [Decode a transaction receipt](./examples/contracts/examples/decode_receipt.rs)
+- [x] Sol macro (`tron_sol!`)
+  - [x] [Type-safe bindings from a Solidity interface](./examples/sol-macro/examples/tron_sol_bindings.rs)
+  - [x] [Query typed events with generated filters](./examples/sol-macro/examples/tron_sol_events.rs)
 - [x] TRC10
   - [x] [Query token metadata by ID](./examples/trc10/examples/trc10_query.rs)
   - [x] [Query token metadata by name](./examples/trc10/examples/trc10_by_name.rs)
@@ -64,6 +70,10 @@ This repository contains the following examples:
   - [x] [Approve and allowance](./examples/trc20/examples/trc20_approve.rs)
   - [x] [transferFrom flow](./examples/trc20/examples/trc20_transfer_from.rs)
   - [x] [Decode Transfer events](./examples/trc20/examples/trc20_decode_transfer_event.rs)
+- [x] TRC721 (NFT)
+  - [x] [Query NFT metadata and ownership](./examples/trc721/examples/trc721_query.rs)
+  - [x] [Transfer an NFT](./examples/trc721/examples/trc721_transfer.rs)
+  - [x] [Approve a spender or operator](./examples/trc721/examples/trc721_approve.rs)
 - [x] Accounts
   - [x] [Create an account on-chain](./examples/accounts/examples/account_create.rs)
   - [x] [Set an account name](./examples/accounts/examples/account_update.rs)

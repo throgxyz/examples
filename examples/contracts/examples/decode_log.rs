@@ -40,7 +40,10 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Fetch receipt ─────────────────────────────────────────────────────────
 
-    let info = provider.get_transaction_info(tx_id).await?;
+    let info = provider
+        .get_transaction_info(tx_id)
+        .await?
+        .ok_or_else(|| anyhow::anyhow!("transaction not found or not yet confirmed"))?;
     println!("=== Transaction 0x{} ===", hex::encode(tx_id));
     println!("  status : {:?}", info.status);
     println!("  logs   : {}", info.logs.len());

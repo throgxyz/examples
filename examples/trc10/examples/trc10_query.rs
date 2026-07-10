@@ -28,7 +28,10 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Fetch token metadata ──────────────────────────────────────────────────
 
-    let info = provider.get_asset_info(&token_id).await?;
+    let info = provider
+        .get_asset_info(&token_id)
+        .await?
+        .ok_or_else(|| anyhow::anyhow!("token #{token_id} not found"))?;
 
     println!("=== TRC10 Token #{} ===", info.id);
     println!("  name         : {}", info.name);

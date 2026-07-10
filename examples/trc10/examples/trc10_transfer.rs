@@ -43,7 +43,10 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Token info + balance check ────────────────────────────────────────────
 
-    let token_info = provider.get_asset_info(&token_id).await?;
+    let token_info = provider
+        .get_asset_info(&token_id)
+        .await?
+        .ok_or_else(|| anyhow::anyhow!("token #{token_id} not found"))?;
     let balance_before = provider.trc10_balance(from, &token_id).await?;
 
     println!("=== TRC10 Transfer ===");

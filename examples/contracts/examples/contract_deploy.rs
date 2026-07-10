@@ -103,7 +103,7 @@ async fn main() -> anyhow::Result<()> {
 
     let balance = provider.get_account(deployer).await?.balance;
     println!("=== Deployer {} ===", deployer);
-    println!("  balance : {} TRX", balance.as_trx());
+    println!("  balance : {} TRX", balance);
 
     // Deployment costs energy; make sure there's enough TRX for the fee_limit.
     if balance < Trx::from_sun(5_000_000)? {

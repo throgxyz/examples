@@ -35,13 +35,13 @@ async fn main() -> anyhow::Result<()> {
     // ── Account ───────────────────────────────────────────────────────────────
     let account = provider.get_account(address).await?;
     println!("\n=== Account {} ===", address);
-    println!("  balance     : {} TRX", account.balance.as_trx());
+    println!("  balance     : {} TRX", account.balance);
     println!("  name        : {:?}", account.name);
     println!("  activated   : {}", account.is_activated);
     println!("  frozen_v2   : {} entries", account.frozen_v2.len());
 
     for f in &account.frozen_v2 {
-        println!("    {:?}  {} TRX staked", f.resource, f.amount.as_trx());
+        println!("    {:?}  {} TRX staked", f.resource, f.amount);
     }
 
     // ── Resources ─────────────────────────────────────────────────────────────
@@ -61,13 +61,13 @@ async fn main() -> anyhow::Result<()> {
     let max_energy = provider.get_can_delegate_max(address, ResourceCode::Energy).await?;
     let max_bw = provider.get_can_delegate_max(address, ResourceCode::Bandwidth).await?;
     println!("\n=== Max delegatable ===");
-    println!("  energy    : {} TRX", max_energy.as_trx());
-    println!("  bandwidth : {} TRX", max_bw.as_trx());
+    println!("  energy    : {} TRX", max_energy);
+    println!("  bandwidth : {} TRX", max_bw);
 
     // ── Pending reward ────────────────────────────────────────────────────────
     let reward = provider.get_reward(address).await?;
     println!("\n=== Pending reward ===");
-    println!("  {} TRX", reward.as_trx());
+    println!("  {} TRX", reward);
 
     Ok(())
 }

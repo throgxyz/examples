@@ -50,23 +50,14 @@ async fn main() -> anyhow::Result<()> {
         .fold(Trx::ZERO, |acc, a| acc + a);
 
     println!("=== Account {} ===", me);
-    println!("  staked for energy : {} TRX", staked_energy.as_trx());
+    println!("  staked for energy : {} TRX", staked_energy);
     println!("  in-progress unfreeze slots : {}", account.unfrozen_v2.len());
     for u in &account.unfrozen_v2 {
-        println!(
-            "    {:?}  {} TRX  expires {} ms",
-            u.resource,
-            u.amount.as_trx(),
-            u.expire_time_ms
-        );
+        println!("    {:?}  {} TRX  expires {} ms", u.resource, u.amount, u.expire_time_ms);
     }
 
     if staked_energy < amount {
-        anyhow::bail!(
-            "not enough staked: have {} TRX, requested {} TRX",
-            staked_energy.as_trx(),
-            amount.as_trx()
-        );
+        anyhow::bail!("not enough staked: have {} TRX, requested {} TRX", staked_energy, amount);
     }
 
     // Check available unfreeze slots (max 32).
@@ -98,15 +89,10 @@ async fn main() -> anyhow::Result<()> {
         .fold(Trx::ZERO, |acc, a| acc + a);
 
     println!("\n=== After ===");
-    println!("  staked for energy       : {} TRX", new_staked.as_trx());
+    println!("  staked for energy       : {} TRX", new_staked);
     println!("  in-progress unfreezes   : {}", after.unfrozen_v2.len());
     for u in &after.unfrozen_v2 {
-        println!(
-            "    {:?}  {} TRX  expires {} ms",
-            u.resource,
-            u.amount.as_trx(),
-            u.expire_time_ms
-        );
+        println!("    {:?}  {} TRX  expires {} ms", u.resource, u.amount, u.expire_time_ms);
     }
     println!("\n  Run `withdraw_unfreeze` after the lock period expires to claim the TRX.");
 

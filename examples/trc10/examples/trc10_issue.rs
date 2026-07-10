@@ -49,7 +49,7 @@ async fn main() -> anyhow::Result<()> {
 
     let balance = provider.get_account(issuer).await?.balance;
     println!("=== Issuer {} ===", issuer);
-    println!("  balance : {} TRX", balance.as_trx());
+    println!("  balance : {} TRX", balance);
 
     // ── Issue token ───────────────────────────────────────────────────────────
     //

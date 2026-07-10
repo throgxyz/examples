@@ -27,7 +27,7 @@ manual_assert         = "warn"
 needless_continue     = "warn"
 
 [workspace.dependencies]
-tronz            = { version = "0.1", features = ["signer-mnemonic", "signer-keystore"] }
+tronz            = { version = "0.3", features = ["signer-mnemonic", "signer-keystore"] }
 tokio            = { version = "1", features = ["rt-multi-thread", "macros"] }
 anyhow           = "1"
 tempfile         = "3"
@@ -38,3 +38,5 @@ alloy-json-abi   = { version = "1", default-features = false, features = ["std"]
 k256             = "0.13"
 hex              = "0.4"
 rand             = "0.8"
+aws-config       = "1"
+aws-sdk-kms      = "1"

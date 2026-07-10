@@ -11,7 +11,7 @@ publish.workspace = true
 workspace = true
 
 [dev-dependencies]
-tronz.workspace    = true
+tronz              = { workspace = true, features = ["signer-aws"] }
 tokio.workspace    = true
 anyhow.workspace   = true
 tempfile.workspace = true
@@ -19,3 +19,5 @@ hex.workspace        = true
 k256.workspace       = true
 rand.workspace       = true
 serde_json.workspace = true
+aws-config.workspace  = true
+aws-sdk-kms.workspace = true

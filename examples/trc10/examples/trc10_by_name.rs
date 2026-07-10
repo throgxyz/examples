@@ -28,7 +28,7 @@ async fn main() -> anyhow::Result<()> {
 
     println!("=== Exact match for \"{token_name}\" ===");
     match provider.get_asset_issue_by_name(&token_name).await {
-        Ok(info) => {
+        Ok(Some(info)) => {
             println!("  id           : #{}", info.id);
             println!("  name         : {}", info.name);
             println!("  symbol       : {}", info.abbr);
@@ -37,7 +37,8 @@ async fn main() -> anyhow::Result<()> {
             println!("  issuer       : {}", info.owner);
             println!("  url          : {}", info.url);
         }
-        Err(e) => println!("  not found: {e}"),
+        Ok(None) => println!("  (no token named \"{token_name}\")"),
+        Err(e) => println!("  error: {e}"),
     }
 
     // ── All tokens with this name ─────────────────────────────────────────────
