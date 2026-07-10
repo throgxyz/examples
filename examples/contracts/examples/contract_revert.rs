@@ -5,7 +5,7 @@
 //! string in `TransactionInfo::revert_reason`.
 //!
 //! This example demonstrates how to:
-//! 1. Detect a revert from a constant call (`ContractError::ContractRevert`)
+//! 1. Detect a revert from a constant call (`ContractError::Revert`)
 //! 2. Detect a revert from a broadcast call (`TransactionInfo::contract_result`)
 //! 3. Decode a raw ABI-encoded revert reason manually
 //!
