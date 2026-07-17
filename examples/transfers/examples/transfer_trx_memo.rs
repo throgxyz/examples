@@ -53,10 +53,10 @@ async fn main() -> anyhow::Result<()> {
 
     // ── Attach memo and send ──────────────────────────────────────────────────
     //
-    // `.memo()` accepts any `Into<Vec<u8>>` — bytes are stored verbatim.
+    // `.memo()` accepts any `Into<Bytes>` — bytes are stored verbatim.
     // String memos should be UTF-8, but the protocol does not enforce this.
 
-    let pending = provider.send_trx().to(to).amount(amount).memo(memo.as_bytes()).send().await?;
+    let pending = provider.send_trx().to(to).amount(amount).memo(memo.into_bytes()).send().await?;
 
     let tx_id = pending.tx_id();
     println!("\n  tx_id  : 0x{}", hex::encode(tx_id));

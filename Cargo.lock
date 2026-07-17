@@ -1481,6 +1481,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "examples-solidity"
+version = "0.1.0"
+dependencies = [
+ "alloy-dyn-abi",
+ "alloy-json-abi",
+ "alloy-primitives",
+ "anyhow",
+ "hex",
+ "serde_json",
+ "tokio",
+ "tronz",
+]
+
+[[package]]
 name = "examples-staking"
 version = "0.1.0"
 dependencies = [
@@ -3840,10 +3854,9 @@ dependencies = [
 
 [[package]]
 name = "tronz"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c1ce3d46e6ed829f94d77db0ff39ba096d63bb9242502e8c1ed8a6431c59a1f"
+version = "0.4.0"
 dependencies = [
+ "tronz-abi",
  "tronz-contract",
  "tronz-primitives",
  "tronz-provider",
@@ -3852,10 +3865,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "tronz-abi"
+version = "0.4.0"
+dependencies = [
+ "alloy-json-abi",
+ "thiserror 2.0.18",
+]
+
+[[package]]
 name = "tronz-contract"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5ec2df0c5a3d11a7d26aafdb6935b71a43fefcc7e524abdcf70c7b59bfab16a9"
+version = "0.4.0"
 dependencies = [
  "alloy-dyn-abi",
  "alloy-json-abi",
@@ -3863,6 +3882,7 @@ dependencies = [
  "alloy-sol-macro",
  "alloy-sol-types",
  "thiserror 2.0.18",
+ "tronz-abi",
  "tronz-primitives",
  "tronz-provider",
  "tronz-sol-macro",
@@ -3870,9 +3890,7 @@ dependencies = [
 
 [[package]]
 name = "tronz-primitives"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "77ff02bf53ae118307e94223901a7e8ef69c093ff9ea893c9367fb5a4a05135d"
+version = "0.4.0"
 dependencies = [
  "alloy-primitives",
  "bs58",
@@ -3884,15 +3902,12 @@ dependencies = [
 
 [[package]]
 name = "tronz-provider"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b1af4b6a007dc4159da30320c96e90e9e5559ebeea1cfdb1501cd8a003a08d3"
+version = "0.4.0"
 dependencies = [
  "fastrand",
  "futures",
  "prost",
  "prost-types",
- "serde_json",
  "sha2 0.11.0",
  "thiserror 2.0.18",
  "tokio",
@@ -3900,15 +3915,14 @@ dependencies = [
  "tonic-prost",
  "tonic-prost-build",
  "tracing",
+ "tronz-abi",
  "tronz-primitives",
  "tronz-signer",
 ]
 
 [[package]]
 name = "tronz-signer"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "63af28f659d6fecf96f03d9db0d05b010cbc2c44e32a2ca08de1433b2b1998ab"
+version = "0.4.0"
 dependencies = [
  "aes",
  "coins-bip32",
@@ -3928,9 +3942,7 @@ dependencies = [
 
 [[package]]
 name = "tronz-signer-aws"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "263968f7d459c06efb60debcc0213f34578ced75b3c75f553c9c8fe5b11ad09a"
+version = "0.4.0"
 dependencies = [
  "aws-sdk-kms",
  "hex",
@@ -3944,9 +3956,7 @@ dependencies = [
 
 [[package]]
 name = "tronz-sol-macro"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "809be7cad82f9723873c4f8b27f7917c79d1a85c28728281de8dc884a9c98551"
+version = "0.4.0"
 dependencies = [
  "alloy-json-abi",
  "proc-macro2",

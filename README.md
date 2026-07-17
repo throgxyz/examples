@@ -2,7 +2,12 @@
 
 Runnable examples for the [tronz](https://github.com/throgxyz/tronz) TRON SDK.
 
-These examples track **tronz `0.3.0`**.
+These examples track **tronz `0.4.0`**.
+
+> **Note:** the Solidity-node examples use `SolidityProvider`, which is
+> unreleased at the time of writing. Until the next crates.io release, the
+> workspace `Cargo.toml` carries a `[patch.crates-io]` that builds against a
+> local `../tronz` checkout. Remove that patch once the version ships.
 
 All examples target the [Nile testnet](https://nileex.io). Read-only examples run without a private key; examples that send transactions require `TRON_PRIVATE_KEY=<hex>`.
 
@@ -59,6 +64,10 @@ This repository contains the following examples:
 - [x] Sol macro (`tron_sol!`)
   - [x] [Type-safe bindings from a Solidity interface](./examples/sol-macro/examples/tron_sol_bindings.rs)
   - [x] [Query typed events with generated filters](./examples/sol-macro/examples/tron_sol_events.rs)
+- [x] Solidity node (irreversible state)
+  - [x] [Read solidified blocks, accounts, and receipts](./examples/solidity/examples/solidity_query.rs)
+  - [x] [Constant call against solidified state](./examples/solidity/examples/solidity_constant_call.rs)
+  - [x] [Broadcast, then wait for solidification](./examples/solidity/examples/solidity_await.rs)
 - [x] TRC10
   - [x] [Query token metadata by ID](./examples/trc10/examples/trc10_query.rs)
   - [x] [Query token metadata by name](./examples/trc10/examples/trc10_by_name.rs)

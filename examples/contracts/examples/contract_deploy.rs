@@ -119,7 +119,7 @@ async fn main() -> anyhow::Result<()> {
 
     let pending = provider
         .deploy(bytecode)
-        .abi(COUNTER_ABI)
+        .abi(serde_json::from_str(COUNTER_ABI)?)
         .name("Counter")
         .fee_limit(Trx::from_sun(20_000_000)?) // 20 TRX fee limit
         .send()

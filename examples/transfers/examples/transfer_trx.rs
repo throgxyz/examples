@@ -2,10 +2,10 @@
 //!
 //! Required env:
 //!   TRON_PRIVATE_KEY  — hex private key (no 0x prefix)
-//!   TRON_TO           — recipient address (defaults to sending to self)
 //!
 //! Optional env:
 //!   TRON_API_KEY      — TronGrid API key
+//!   TRON_TO           — recipient (defaults to a well-known Nile address)
 //!   TRON_AMOUNT_SUN   — amount in sun (default: 1_000_000 = 1 TRX)
 //!
 //! ```
@@ -24,10 +24,11 @@ async fn main() -> anyhow::Result<()> {
     let signer = LocalSigner::from_hex(&key_hex)?;
     let from = signer.address();
 
+    // Default to a well-known Nile address; TRON does not allow self-transfers.
     let to: tronz::Address = std::env::var("TRON_TO")
         .ok()
         .map(|s| s.parse().expect("valid TRON_TO address"))
-        .unwrap_or(from); // send to self by default
+        .unwrap_or_else(|| "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t".parse().unwrap());
 
     let amount = Trx::from_sun(amount_sun)?;
 
