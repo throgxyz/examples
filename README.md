@@ -2,12 +2,7 @@
 
 Runnable examples for the [tronz](https://github.com/throgxyz/tronz) TRON SDK.
 
-These examples track **tronz `0.4.0`**.
-
-> **Note:** the Solidity-node examples use `SolidityProvider`, which is
-> unreleased at the time of writing. Until the next crates.io release, the
-> workspace `Cargo.toml` carries a `[patch.crates-io]` that builds against a
-> local `../tronz` checkout. Remove that patch once the version ships.
+These examples track **tronz `0.4.1`**.
 
 All examples target the [Nile testnet](https://nileex.io). Read-only examples run without a private key; examples that send transactions require `TRON_PRIVATE_KEY=<hex>`.
 
@@ -31,6 +26,7 @@ This repository contains the following examples:
   - [x] [TRX amount math](./examples/queries/examples/amount_math.rs)
   - [x] [Connect to a custom endpoint](./examples/queries/examples/connect_custom.rs)
   - [x] [List witnesses (SRs)](./examples/queries/examples/list_witnesses.rs)
+  - [x] [Page witnesses by live votes](./examples/queries/examples/witness_pagination.rs)
   - [x] [List governance proposals](./examples/queries/examples/governance_list.rs)
 - [x] Signers
   - [x] [Generate a random keypair](./examples/signers/examples/signer_generate.rs)
@@ -54,6 +50,7 @@ This repository contains the following examples:
   - [x] [Vote for a witness](./examples/staking/examples/vote_witness.rs)
 - [x] Contracts
   - [x] [Read-only contract call](./examples/contracts/examples/contract_call.rs)
+  - [x] [Set msg.sender with .caller()](./examples/contracts/examples/contract_call_as.rs)
   - [x] [State-changing contract call](./examples/contracts/examples/contract_send.rs)
   - [x] [Deploy a contract](./examples/contracts/examples/contract_deploy.rs)
   - [x] [Call a contract via JSON ABI](./examples/contracts/examples/contract_dynamic_abi.rs)
@@ -66,6 +63,7 @@ This repository contains the following examples:
   - [x] [Query typed events with generated filters](./examples/sol-macro/examples/tron_sol_events.rs)
 - [x] Solidity node (irreversible state)
   - [x] [Read solidified blocks, accounts, and receipts](./examples/solidity/examples/solidity_query.rs)
+  - [x] [Typed TRC20 read against solidified state](./examples/solidity/examples/solidity_trc20.rs)
   - [x] [Constant call against solidified state](./examples/solidity/examples/solidity_constant_call.rs)
   - [x] [Broadcast, then wait for solidification](./examples/solidity/examples/solidity_await.rs)
 - [x] TRC10

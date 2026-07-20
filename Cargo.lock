@@ -3854,7 +3854,9 @@ dependencies = [
 
 [[package]]
 name = "tronz"
-version = "0.4.0"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "88ccd458358eee8aa7742e074c296bc953ba87e1aae8ae3bebd3f1ba43d6c8a7"
 dependencies = [
  "tronz-abi",
  "tronz-contract",
@@ -3866,7 +3868,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-abi"
-version = "0.4.0"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d29d554c9fa4d0c086dbecdcdef7a9d12b776c6b0264c8665627039eec09c685"
 dependencies = [
  "alloy-json-abi",
  "thiserror 2.0.18",
@@ -3874,7 +3878,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-contract"
-version = "0.4.0"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b48eca64f91b77abacacf8f6659fbe457657feda2295aa566b767b6eb3c67d00"
 dependencies = [
  "alloy-dyn-abi",
  "alloy-json-abi",
@@ -3890,7 +3896,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-primitives"
-version = "0.4.0"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d87e8fbd202ef18eec91db77b0409525065178871e9eb97fd9fdcd997a3e533d"
 dependencies = [
  "alloy-primitives",
  "bs58",
@@ -3902,7 +3910,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-provider"
-version = "0.4.0"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a46ad6b776012d211b80c6ed9e17c285ae27e16b689e8219d95c579c78e661ec"
 dependencies = [
  "fastrand",
  "futures",
@@ -3922,7 +3932,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-signer"
-version = "0.4.0"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9de61b126da30bb2514c7c89e4c9f094f0438234266dd1d771bccf8426b43d56"
 dependencies = [
  "aes",
  "coins-bip32",
@@ -3942,7 +3954,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-signer-aws"
-version = "0.4.0"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9d8d823bb34937134231a459168ab25cae11de985281c41d873342c9e811795f"
 dependencies = [
  "aws-sdk-kms",
  "hex",
@@ -3956,7 +3970,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-sol-macro"
-version = "0.4.0"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7a2a2623417fb9f01a72db2f60edf3620916245987fe8edffab6df06484594e7"
 dependencies = [
  "alloy-json-abi",
  "proc-macro2",

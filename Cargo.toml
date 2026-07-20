@@ -27,7 +27,7 @@ manual_assert         = "warn"
 needless_continue     = "warn"
 
 [workspace.dependencies]
-tronz            = { version = "0.4", features = ["signer-mnemonic", "signer-keystore"] }
+tronz            = { version = "0.4.1", features = ["signer-mnemonic", "signer-keystore"] }
 tokio            = { version = "1", features = ["rt-multi-thread", "macros"] }
 anyhow           = "1"
 tempfile         = "3"
@@ -40,10 +40,3 @@ hex              = "0.4"
 rand             = "0.8"
 aws-config       = "1"
 aws-sdk-kms      = "1"
-
-# The SolidityNode examples use APIs that are unreleased at the time of writing
-# (they land in the version after 0.4.0). Until that release, build the whole
-# examples workspace against the local tronz checkout. Remove this patch once
-# the required version is published on crates.io.
-[patch.crates-io]
-tronz = { path = "../tronz/crates/tronz" }

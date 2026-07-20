@@ -15,7 +15,7 @@
 //! cargo run -p examples-solidity --example solidity_query
 //! ```
 
-use tronz::{SolidityProvider, TRONGRID_NILE_SOLIDITY};
+use tronz::{SolidityProvider, TRONGRID_NILE_SOLIDITY, primitives::ResourceCode};
 
 // A well-known TRON address with on-chain activity (mainnet USDT contract; also
 // present on Nile testnet with TRX balance).
@@ -53,6 +53,21 @@ async fn main() -> anyhow::Result<()> {
     println!("\n=== Account {address} ===");
     println!("  balance   : {} TRX", account.balance);
     println!("  activated : {}", account.is_activated);
+
+    // ── Staking & governance (solidified) ─────────────────────────────────────
+    //
+    // Since 0.4.1 the SolidityNode also serves the stake/delegation and witness
+    // queries, so these mirror the FullNode `TronProvider` methods against
+    // irreversible state.
+    let idx = solidity.get_delegated_resource_index(address).await?;
+    let max_energy = solidity.get_can_delegate_max(address, ResourceCode::Energy).await?;
+    let witnesses = solidity.list_witnesses().await?;
+    let active = witnesses.iter().filter(|w| w.is_active).count();
+    println!("\n=== Staking & governance ===");
+    println!("  delegating to    : {} accounts", idx.to_accounts.len());
+    println!("  receiving from   : {} accounts", idx.from_accounts.len());
+    println!("  max delegatable  : {max_energy} TRX (energy)");
+    println!("  witnesses        : {} ({active} active)", witnesses.len());
 
     // ── Optional receipt lookup ───────────────────────────────────────────────
     //
