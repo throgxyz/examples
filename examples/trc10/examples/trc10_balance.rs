@@ -28,9 +28,8 @@ async fn main() -> anyhow::Result<()> {
 
     let address: tronz::Address = addr_str.parse()?;
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
-
-    // ── Get token metadata ────────────────────────────────────────────────────
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
     let token_info = provider
         .get_asset_info(&token_id)
@@ -38,8 +37,6 @@ async fn main() -> anyhow::Result<()> {
         .ok_or_else(|| anyhow::anyhow!("token #{token_id} not found"))?;
     println!("=== Token #{} ({}) ===", token_info.id, token_info.abbr);
     println!("  decimals : {}", token_info.decimals);
-
-    // ── Method 1: trc10_balance helper ────────────────────────────────────────
 
     let raw_balance = provider.trc10_balance(address, &token_id).await?;
     println!("\n=== Balance of {} ===", address);
@@ -55,10 +52,8 @@ async fn main() -> anyhow::Result<()> {
         );
     }
 
-    // ── Method 2: read from AccountInfo directly ──────────────────────────────
     //
     // `AccountInfo::trc10_balances` is a HashMap<String, i64>.
-    // Iterate it to show all TRC10 holdings.
 
     let account = provider.get_account(address).await?;
     println!("\n=== All TRC10 balances ===");

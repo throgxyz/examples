@@ -16,7 +16,7 @@
 //! TRON_PRIVATE_KEY=<key> TRON_TO=<sr-addr> cargo run -p examples-staking --example vote_witness
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -33,10 +33,8 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
-
-    // ── Check TRON Power ──────────────────────────────────────────────────────
 
     let res = provider.get_account_resource(me).await?;
     println!("=== Voter {} ===", me);
@@ -53,8 +51,6 @@ async fn main() -> anyhow::Result<()> {
         );
     }
 
-    // ── Current votes ─────────────────────────────────────────────────────────
-
     let account = provider.get_account(me).await?;
     if !account.votes.is_empty() {
         println!("\n=== Current votes ===");
@@ -64,7 +60,6 @@ async fn main() -> anyhow::Result<()> {
         println!("  (submitting new votes will replace all of the above)");
     }
 
-    // ── Cast votes ────────────────────────────────────────────────────────────
     //
     // Call `.vote(sr, count)` multiple times to split votes across SRs.
     // All votes in a single call replace previously cast votes.
@@ -76,8 +71,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  waiting for confirmation…");
     let info = pending.get_receipt().await?;
     println!("  status : {:?}", info.status);
-
-    // ── Verify ───────────────────────────────────────────────────────────────
 
     let after = provider.get_account(me).await?;
     println!("\n=== Votes after ===");

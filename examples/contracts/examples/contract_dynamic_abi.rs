@@ -87,9 +87,8 @@ async fn main() -> anyhow::Result<()> {
     let contract: tronz::Address = contract_str.parse()?;
     let addr: tronz::Address = addr_str.parse()?;
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
-
-    // ── Build Interface ───────────────────────────────────────────────────────
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
     let abi: JsonAbi = serde_json::from_str(ERC20_ABI)?;
     let interface = Interface::new(abi);
@@ -98,10 +97,7 @@ async fn main() -> anyhow::Result<()> {
     println!("  functions : {:?}", interface.abi().functions.keys().collect::<Vec<_>>());
     println!("  events    : {:?}", interface.abi().events.keys().collect::<Vec<_>>());
 
-    // Bind the interface to the contract address.
     let instance = provider.contract(contract, interface);
-
-    // ── No-arg calls ──────────────────────────────────────────────────────────
 
     let name = dyn_string(instance.call("name", &[]).await?);
     let symbol = dyn_string(instance.call("symbol", &[]).await?);
@@ -114,7 +110,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  decimals    : {decimals}");
     println!("  totalSupply : {supply}");
 
-    // ── Call with arguments ───────────────────────────────────────────────────
     //
     // `DynSolValue::Address` expects a 20-byte alloy address (no 0x41 prefix).
 

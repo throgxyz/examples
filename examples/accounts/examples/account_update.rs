@@ -14,7 +14,7 @@
 //! TRON_PRIVATE_KEY=<key> TRON_NAME=alice cargo run -p examples-accounts --example account_update
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -29,10 +29,8 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
-
-    // ── Current name ──────────────────────────────────────────────────────────
 
     let account = provider.get_account(me).await?;
     println!("=== Account {} ===", me);
@@ -42,8 +40,6 @@ async fn main() -> anyhow::Result<()> {
         println!("  account already has a name — update will likely be rejected by the node");
     }
 
-    // ── Send update ───────────────────────────────────────────────────────────
-
     println!("\n=== Setting name to {:?} ===", name);
     let pending = provider.update_account_name().name(&name).send().await?;
 
@@ -51,8 +47,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  waiting for confirmation…");
     let info = pending.get_receipt().await?;
     println!("  status : {:?}", info.status);
-
-    // ── Verify ───────────────────────────────────────────────────────────────
 
     let updated = provider.get_account(me).await?;
     println!("\n=== After ===");

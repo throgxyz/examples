@@ -22,9 +22,8 @@ async fn main() -> anyhow::Result<()> {
     let token_name = std::env::var("TRON_TOKEN_NAME").unwrap_or_else(|_| "BitTorrent".to_owned());
     let api_key = std::env::var("TRON_API_KEY").ok();
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
-
-    // ── Exact match (first token with this name) ──────────────────────────────
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
     println!("=== Exact match for \"{token_name}\" ===");
     match provider.get_asset_issue_by_name(&token_name).await {
@@ -40,8 +39,6 @@ async fn main() -> anyhow::Result<()> {
         Ok(None) => println!("  (no token named \"{token_name}\")"),
         Err(e) => println!("  error: {e}"),
     }
-
-    // ── All tokens with this name ─────────────────────────────────────────────
 
     println!("\n=== All tokens named \"{token_name}\" ===");
     match provider.get_asset_issue_list_by_name(&token_name).await {

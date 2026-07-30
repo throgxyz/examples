@@ -14,11 +14,9 @@
 //! throwaway testnet keys.
 
 use k256::ecdsa::SigningKey;
-use tronz::{LocalSigner, TronSigner, primitives::Address};
+use tronz::{LocalSigner, primitives::Address};
 
 fn main() -> anyhow::Result<()> {
-    // ── Generate key pair ─────────────────────────────────────────────────────
-
     // k256::ecdsa::SigningKey::random generates a cryptographically secure key
     // using the OS random number generator (getrandom).
     let key = SigningKey::random(&mut rand::rngs::OsRng);
@@ -34,15 +32,11 @@ fn main() -> anyhow::Result<()> {
     println!("  address hex : {}", address.to_hex());
     println!("  address evm : 0x{}", hex::encode(address.as_evm_bytes()));
 
-    // ── Every run produces a different key ────────────────────────────────────
-
     let key2 = SigningKey::random(&mut rand::rngs::OsRng);
     let signer2 = LocalSigner::from_bytes(&key2.to_bytes().into())?;
     assert_ne!(signer.address(), signer2.address(), "fresh keys are unique");
     println!("\n  second run  : {}", signer2.address());
     println!("  unique      : {}", signer.address() != signer2.address());
-
-    // ── How to fund the address on Nile testnet ───────────────────────────────
 
     println!("\n=== Next steps ===");
     println!("  1. Save the private key to a secure location.");

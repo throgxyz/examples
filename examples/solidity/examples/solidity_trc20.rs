@@ -30,11 +30,9 @@ async fn main() -> anyhow::Result<()> {
         std::env::var("TRON_ADDRESS").map(|s| s.parse()).unwrap_or(Ok(contract))?;
     let api_key = std::env::var("TRON_API_KEY").ok();
 
-    // ── Connect to a SolidityNode ─────────────────────────────────────────────
     let solidity =
         SolidityProvider::builder().maybe_api_key(api_key).connect(TRONGRID_NILE_SOLIDITY).await?;
 
-    // ── Bind the TRC20 instance to the read-only provider ─────────────────────
     //
     // `solidity.trc20(addr)` reads solidified state; a FullNode provider's
     // `.trc20(addr)` reads latest state. Same handle, different finality.

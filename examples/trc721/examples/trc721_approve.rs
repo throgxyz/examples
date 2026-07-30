@@ -21,7 +21,7 @@
 //! ```
 
 use tronz::{
-    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronSigner,
+    LocalSigner, ProviderBuilder, TRONGRID_NILE,
     contract::Trc721Ext,
     primitives::{Address, U256},
 };
@@ -44,7 +44,7 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     let nft = provider.trc721(contract);

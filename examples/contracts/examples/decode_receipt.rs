@@ -1,8 +1,5 @@
 //! Fetch a known transaction by id and print the full receipt.
 //!
-//! Demonstrates reading back a confirmed transaction's receipt: status, energy
-//! usage, bandwidth usage, contract result, and emitted logs.
-//!
 //! No private key required (read-only).
 //!
 //! Required env:
@@ -25,18 +22,18 @@ async fn main() -> anyhow::Result<()> {
     let tx_id_bytes = hex::decode(tx_id_hex.trim_start_matches("0x"))?;
     let tx_id: B256 = B256::from_slice(&tx_id_bytes);
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
-    // ── Fetch transaction ─────────────────────────────────────────────────────
-
-    let signed = provider.get_transaction(tx_id).await?;
+    let signed = provider
+        .get_transaction(tx_id)
+        .await?
+        .ok_or_else(|| anyhow::anyhow!("transaction not found"))?;
     println!("=== Transaction ===");
     println!("  tx_id       : 0x{}", hex::encode(tx_id));
     println!("  signatures  : {}", signed.signatures.len());
     println!("  expiration  : {} ms", signed.raw.expiration);
     println!("  timestamp   : {} ms", signed.raw.timestamp);
-
-    // ── Fetch receipt ─────────────────────────────────────────────────────────
 
     let info = provider
         .get_transaction_info(tx_id)
@@ -64,15 +61,13 @@ async fn main() -> anyhow::Result<()> {
         println!("  address : {addr}");
     }
 
-    // ── Logs ─────────────────────────────────────────────────────────────────
-
     if info.logs.is_empty() {
         println!("\n=== Logs: none ===");
     } else {
         println!("\n=== Logs ({}) ===", info.logs.len());
         for (i, log) in info.logs.iter().enumerate() {
             println!("  [{}] address : {}", i, log.address);
-            for (j, topic) in log.topics.iter().enumerate() {
+            for (j, topic) in log.topics().iter().enumerate() {
                 println!("       topic[{j}] : 0x{}", hex::encode(topic));
             }
             println!("       data    : 0x{}", hex::encode(&log.data));

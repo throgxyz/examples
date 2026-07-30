@@ -28,8 +28,6 @@ use tronz::{
 };
 
 fn main() -> anyhow::Result<()> {
-    // ── TRX ↔ sun conversions ─────────────────────────────────────────────────
-
     println!("=== TRX ↔ sun ===");
     println!("  1 TRX = {SUN_PER_TRX} sun  (SUN_PER_TRX)");
 
@@ -47,7 +45,6 @@ fn main() -> anyhow::Result<()> {
     // free-fn equivalent (mirrors alloy's `format_ether`).
     println!("  format_trx(2.5 TRX) = {}", format_trx(two_and_half));
 
-    // ── Arithmetic ────────────────────────────────────────────────────────────
     //
     // `+` / `-` panic on overflow or a negative result — amounts are always
     // non-negative, so this surfaces logic bugs instead of silently wrapping.
@@ -61,7 +58,6 @@ fn main() -> anyhow::Result<()> {
     println!("  a + b = {}", a + b);
     println!("  a - b = {}", a - b);
 
-    // ── Checked arithmetic ────────────────────────────────────────────────────
     //
     // Use the checked variants for untrusted input: they return `None` instead
     // of panicking on overflow or a negative result.
@@ -76,8 +72,6 @@ fn main() -> anyhow::Result<()> {
     let max = Trx::from_sun(i64::MAX)?;
     println!("  MAX + 1 = {:?}  (None = overflow)", max.checked_add(Trx::from_sun(1)?));
 
-    // ── Ordering ──────────────────────────────────────────────────────────────
-
     println!("\n=== Ordering ===");
 
     let amounts: [Trx; 4] = ["100".parse()?, "1.5".parse()?, "50".parse()?, Trx::ZERO];
@@ -86,7 +80,6 @@ fn main() -> anyhow::Result<()> {
     println!("  min = {min}");
     println!("  max = {max}");
 
-    // ── U256 for TRC20 tokens ─────────────────────────────────────────────────
     //
     // TRC20 balances and transfer amounts use U256, matching the ERC-20 ABI.
     // A 6-decimal token (e.g. USDT) represents 1 unit as 1_000_000 in U256.

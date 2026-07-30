@@ -16,8 +16,7 @@
 //! ```
 
 use tronz::{
-    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx,
-    primitives::ResourceCode,
+    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx, primitives::ResourceCode,
 };
 
 #[tokio::main]
@@ -34,12 +33,10 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     let amount = Trx::from_sun(freeze_sun)?;
-
-    // ── Before ────────────────────────────────────────────────────────────────
 
     let res_before = provider.get_account_resource(me).await?;
     println!("=== Bandwidth before staking ===");
@@ -47,8 +44,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  staked   : {}/{}", res_before.bandwidth_used, res_before.bandwidth_limit);
     println!("  delegated out : {} TRX", res_before.delegated_bandwidth_for_others);
     println!("  received      : {} TRX", res_before.received_bandwidth);
-
-    // ── Freeze for bandwidth ──────────────────────────────────────────────────
 
     println!("\n=== Freeze {} for Bandwidth ===", amount);
     let pending =
@@ -59,8 +54,6 @@ async fn main() -> anyhow::Result<()> {
     let info = pending.get_receipt().await?;
     println!("  status : {:?}", info.status);
     println!("  net fee: {} sun", info.net_fee.as_sun());
-
-    // ── After ─────────────────────────────────────────────────────────────────
 
     let res_after = provider.get_account_resource(me).await?;
     println!("\n=== Bandwidth after staking ===");

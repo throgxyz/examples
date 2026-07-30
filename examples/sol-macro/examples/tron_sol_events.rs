@@ -46,7 +46,8 @@ async fn main() -> anyhow::Result<()> {
     let api_key = std::env::var("TRON_API_KEY").ok();
     let contract = std::env::var("TRON_CONTRACT").ok();
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
     // Any address works as the binding target; the filter can be scoped to a
     // specific emitter separately via `.address(...)`.
@@ -56,14 +57,11 @@ async fn main() -> anyhow::Result<()> {
     };
     let token = IErc20::new(bind_addr, provider);
 
-    // Build a typed filter for the `Transfer` event, optionally narrowed to the
-    // configured contract address.
     let mut filter = token.Transfer_filter();
     if let Some(c) = &contract {
         filter = filter.address(c.parse()?);
     }
 
-    // ── Query by transaction id ───────────────────────────────────────────────
     if let Ok(tx_hex) = std::env::var("TRON_TX_ID") {
         let tx_id = B256::from_slice(&hex::decode(tx_hex.trim_start_matches("0x"))?);
         let transfers = filter.query_tx(tx_id).await?;
@@ -73,7 +71,6 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    // ── Query by block number ─────────────────────────────────────────────────
     if let Ok(block_str) = std::env::var("TRON_BLOCK") {
         let block_num: i64 = block_str.parse()?;
         let transfers = filter.query_block(block_num).await?;

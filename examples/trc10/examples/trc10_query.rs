@@ -24,9 +24,8 @@ async fn main() -> anyhow::Result<()> {
     let token_id = std::env::var("TRON_TOKEN_ID").unwrap_or_else(|_| "1000001".to_owned());
     let api_key = std::env::var("TRON_API_KEY").ok();
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
-
-    // ── Fetch token metadata ──────────────────────────────────────────────────
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
     let info = provider
         .get_asset_info(&token_id)
@@ -41,8 +40,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  issuer       : {}", info.owner);
     println!("  url          : {}", info.url);
 
-    // ── Display normalized supply ─────────────────────────────────────────────
-
     if info.decimals > 0 {
         let divisor = 10i64.pow(info.decimals as u32);
         let whole = info.total_supply / divisor;
@@ -54,9 +51,7 @@ async fn main() -> anyhow::Result<()> {
         );
     }
 
-    // ── Browse tokens on-chain ────────────────────────────────────────────────
     //
-    // You can page through all issued TRC10 tokens:
 
     println!("\n=== First 5 TRC10 tokens ===");
     let tokens = provider.get_asset_issue_list(0, 5).await?;

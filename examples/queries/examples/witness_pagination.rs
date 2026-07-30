@@ -22,9 +22,9 @@ async fn main() -> anyhow::Result<()> {
     let api_key = std::env::var("TRON_API_KEY").ok();
     let limit: i64 = std::env::var("TRON_LIMIT").ok().and_then(|s| s.parse().ok()).unwrap_or(10);
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
-    // First page: the current top `limit` SRs by real-time votes.
     let top = provider.get_paginated_now_witness_list(0, limit).await?;
 
     println!("=== Top {limit} witnesses (by live votes) ===");
@@ -40,7 +40,6 @@ async fn main() -> anyhow::Result<()> {
         );
     }
 
-    // Second page: the next `limit`, using `offset` to continue.
     let next = provider.get_paginated_now_witness_list(limit, limit).await?;
     if next.is_empty() {
         println!("\n  (no further pages)");

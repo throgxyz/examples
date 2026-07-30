@@ -22,7 +22,7 @@
 //! ```
 
 use tronz::{
-    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronSigner, U256,
+    LocalSigner, ProviderBuilder, TRONGRID_NILE, U256,
     contract::{ContractExt, Interface, SolCall, trc20::ITRC20},
 };
 
@@ -48,7 +48,7 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     println!("=== Contract send ===");
@@ -57,7 +57,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  to       : {to}");
     println!("  amount   : {amount}");
 
-    // ── Encode calldata ───────────────────────────────────────────────────────
     //
     // `ITRC20::transferCall` is a `sol!`-generated type.
     // `.abi_encode()` produces the 4-byte selector + ABI-encoded arguments.
@@ -69,7 +68,6 @@ async fn main() -> anyhow::Result<()> {
 
     println!("  calldata : 0x{}", hex::encode(&calldata));
 
-    // ── Send ──────────────────────────────────────────────────────────────────
     //
     // `ContractInstance::call_raw(calldata).send()` builds a
     // `TriggerSmartContract` request, fills TAPOS and fee_limit, signs,
@@ -78,8 +76,6 @@ async fn main() -> anyhow::Result<()> {
     let instance = provider.contract(contract, Interface::empty());
     let pending = instance.call_raw(calldata).send().await?;
     println!("\n  tx_id  : 0x{}", hex::encode(pending.tx_id()));
-
-    // ── Wait for confirmation ─────────────────────────────────────────────────
 
     println!("  waiting for confirmation…");
     let info = pending.get_receipt().await?;
@@ -91,8 +87,6 @@ async fn main() -> anyhow::Result<()> {
     if let Some(ref reason) = info.revert_reason {
         println!("  revert reason   : {reason}");
     }
-
-    // ── Decode Transfer event from logs ───────────────────────────────────────
 
     use tronz::contract::decode_logs;
     let transfers: Vec<_> =

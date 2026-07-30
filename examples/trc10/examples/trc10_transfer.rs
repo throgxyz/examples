@@ -18,9 +18,7 @@
 //!   cargo run -p examples-trc10 --example trc10_transfer
 //! ```
 
-use tronz::{
-    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronSigner, providers::ext::Trc10Api as _,
-};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, providers::ext::Trc10Api as _};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -38,10 +36,8 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
-
-    // ── Token info + balance check ────────────────────────────────────────────
 
     let token_info = provider
         .get_asset_info(&token_id)
@@ -60,8 +56,6 @@ async fn main() -> anyhow::Result<()> {
         anyhow::bail!("insufficient balance: have {balance_before}, need {amount}");
     }
 
-    // ── Send ──────────────────────────────────────────────────────────────────
-
     println!("\n  broadcasting…");
     let pending =
         provider.transfer_trc10().to(to).token_id(&token_id).amount(amount).send().await?;
@@ -71,8 +65,6 @@ async fn main() -> anyhow::Result<()> {
     let info = pending.get_receipt().await?;
     println!("  status : {:?}", info.status);
     println!("  net fee: {} sun", info.net_fee.as_sun());
-
-    // ── After ─────────────────────────────────────────────────────────────────
 
     let balance_after = provider.trc10_balance(from, &token_id).await?;
     println!("\n=== After ===");

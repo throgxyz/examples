@@ -15,3 +15,4 @@ tronz.workspace  = true
 tokio.workspace  = true
 anyhow.workspace = true
 hex.workspace    = true
+futures.workspace = true

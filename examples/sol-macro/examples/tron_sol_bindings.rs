@@ -1,16 +1,7 @@
 //! Generate type-safe contract bindings with the `tron_sol!` macro.
 //!
-//! `tron_sol!` is tronz's flagship binding macro. From a Solidity `interface`
-//! (or `contract`) it generates:
-//!
-//!   * a **type layer** — `xxxCall` structs, return decoders, event types
-//!   * a **provider-bound `Instance`** — `IErc20::new(addr, provider)` with one ergonomic method
-//!     per function: `token.balanceOf(addr).call().await?`
-//!
-//! A single invocation can mix several interfaces with bare `struct`/`enum`
-//! definitions, and top-level attributes like `#[derive(...)]` are forwarded to
-//! the generated types.  This example shows all of that, then makes read-only
-//! (`eth_call`-style) calls against a live TRC20 contract.
+//! `tron_sol!` generates ABI types and a provider-bound `Instance` from Solidity.
+//! Attributes on bare `struct` and `enum` declarations are forwarded to the generated types.
 //!
 //! No private key required (read-only).
 //!
@@ -63,14 +54,13 @@ async fn main() -> anyhow::Result<()> {
 
     let contract: TronAddress = contract_str.parse()?;
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
-    // ── Bind the interface to a live contract ─────────────────────────────────
     //
     // `IErc20::new` takes (address, provider) and returns a typed `Instance`.
     let token = IErc20::new(contract, provider);
 
-    // ── Read state with typed methods ─────────────────────────────────────────
     //
     // Each call returns a builder; `.call().await` performs a constant
     // (read-only) `trigger_constant_contract` and decodes the return value to
@@ -92,13 +82,11 @@ async fn main() -> anyhow::Result<()> {
     let balance: U256 = token.balanceOf(contract).call().await?;
     println!("  self-bal : {balance}");
 
-    // ── The bare struct is a first-class Rust type ────────────────────────────
     let meta = TokenMeta { name, symbol, decimals };
     println!("\n=== forwarded #[derive] on bare struct ===");
     println!("  {meta:?}");
     assert_ne!(meta, TokenMeta::default());
 
-    // ── Building a state-changing call (not sent here) ────────────────────────
     //
     // With a signer-backed provider you would send it:
     //   let pending = token.transfer(to, U256::from(1u64)).send().await?;

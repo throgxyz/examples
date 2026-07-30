@@ -2,7 +2,7 @@
 
 Runnable examples for the [tronz](https://github.com/throgxyz/tronz) TRON SDK.
 
-These examples track **tronz `0.4.1`**.
+These examples track **tronz `0.5.0`**.
 
 All examples target the [Nile testnet](https://nileex.io). Read-only examples run without a private key; examples that send transactions require `TRON_PRIVATE_KEY=<hex>`.
 
@@ -31,6 +31,8 @@ This repository contains the following examples:
 - [x] Signers
   - [x] [Generate a random keypair](./examples/signers/examples/signer_generate.rs)
   - [x] [Sign and verify a hash](./examples/signers/examples/signer_local.rs)
+  - [x] [Sign, recover, and verify a TronWeb-compatible message](./examples/signers/examples/signer_message.rs)
+  - [x] [Sign TIP-712 typed data](./examples/signers/examples/signer_tip712.rs)
   - [x] [Derive from a BIP-39 mnemonic](./examples/signers/examples/signer_mnemonic.rs)
   - [x] [Encrypt and decrypt a keystore](./examples/signers/examples/signer_keystore.rs)
   - [x] [Sign with an AWS KMS key](./examples/signers/examples/signer_aws.rs)
@@ -61,6 +63,7 @@ This repository contains the following examples:
 - [x] Sol macro (`tron_sol!`)
   - [x] [Type-safe bindings from a Solidity interface](./examples/sol-macro/examples/tron_sol_bindings.rs)
   - [x] [Query typed events with generated filters](./examples/sol-macro/examples/tron_sol_events.rs)
+  - [x] [Watch new TRC20 Transfer events](./examples/sol-macro/examples/tron_sol_watch.rs)
 - [x] Solidity node (irreversible state)
   - [x] [Read solidified blocks, accounts, and receipts](./examples/solidity/examples/solidity_query.rs)
   - [x] [Typed TRC20 read against solidified state](./examples/solidity/examples/solidity_trc20.rs)
@@ -85,6 +88,7 @@ This repository contains the following examples:
   - [x] [Create an account on-chain](./examples/accounts/examples/account_create.rs)
   - [x] [Set an account name](./examples/accounts/examples/account_update.rs)
   - [x] [Update account permissions (multi-sig)](./examples/accounts/examples/account_permissions.rs)
+  - [x] [Send with an existing multi-sig permission](./examples/accounts/examples/multisig_send.rs)
 
 ## License
 

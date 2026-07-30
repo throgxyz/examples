@@ -15,7 +15,7 @@
 //! TRON_PRIVATE_KEY=<key> cargo run -p examples-staking --example claim_rewards
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -29,10 +29,8 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
-
-    // ── Check pending reward ──────────────────────────────────────────────────
 
     let reward = provider.get_reward(me).await?;
     let balance_before = provider.get_account(me).await?.balance;
@@ -47,8 +45,6 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    // ── Claim ─────────────────────────────────────────────────────────────────
-
     println!("\n=== Claiming reward ===");
     let pending = provider.claim_rewards().send().await?;
     println!("  tx_id  : 0x{}", hex::encode(pending.tx_id()));
@@ -56,8 +52,6 @@ async fn main() -> anyhow::Result<()> {
     let info = pending.get_receipt().await?;
     println!("  status : {:?}", info.status);
     println!("  net fee: {} sun", info.net_fee.as_sun());
-
-    // ── Verify ───────────────────────────────────────────────────────────────
 
     let balance_after = provider.get_account(me).await?.balance;
     println!("\n=== After ===");

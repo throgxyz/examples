@@ -50,7 +50,8 @@ async fn main() -> anyhow::Result<()> {
         std::env::var("TRON_CALLER").expect("TRON_CALLER env var required").parse()?;
     let api_key = std::env::var("TRON_API_KEY").ok();
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
     let abi: JsonAbi = serde_json::from_str(ERC20_ABI)?;
 
@@ -58,7 +59,6 @@ async fn main() -> anyhow::Result<()> {
     // Without it, `msg.sender` would be the zero address.
     let instance = provider.contract(contract, Interface::new(abi)).caller(caller);
 
-    // Query the caller's allowance granted by itself (owner == spender == caller).
     let args = [DynSolValue::Address(caller.into()), DynSolValue::Address(caller.into())];
     let allowance = match instance.call("allowance", &args).await?.into_iter().next() {
         Some(DynSolValue::Uint(n, _)) => n,

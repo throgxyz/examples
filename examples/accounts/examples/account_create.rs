@@ -15,7 +15,7 @@
 //! TRON_PRIVATE_KEY=<key> TRON_TO=<new-addr> cargo run -p examples-accounts --example account_create
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx};
 
 /// Cost of activating a new account (1 TRX).
 const ACTIVATION_FEE_SUN: i64 = 1_000_000;
@@ -34,10 +34,8 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
-
-    // ── Check payer balance ───────────────────────────────────────────────────
 
     let payer_account = provider.get_account(payer).await?;
     println!("=== Payer ===");
@@ -51,8 +49,6 @@ async fn main() -> anyhow::Result<()> {
         );
     }
 
-    // ── Check if already activated ────────────────────────────────────────────
-
     let target = provider.get_account(new_addr).await?;
     println!("\n=== Target account {} ===", new_addr);
     if target.is_activated {
@@ -61,7 +57,6 @@ async fn main() -> anyhow::Result<()> {
     }
     println!("  not yet activated");
 
-    // ── Activate by sending 1 TRX ─────────────────────────────────────────────
     //
     // Sending TRX to an address that doesn't exist automatically activates it.
     // The first transfer is the activation transaction.
@@ -77,8 +72,6 @@ async fn main() -> anyhow::Result<()> {
     let info = pending.get_receipt().await?;
     println!("  status  : {:?}", info.status);
     println!("  net fee : {} sun", info.net_fee.as_sun());
-
-    // ── Confirm activation ────────────────────────────────────────────────────
 
     let after = provider.get_account(new_addr).await?;
     println!("\n=== Result ===");

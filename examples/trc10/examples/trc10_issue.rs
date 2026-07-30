@@ -19,8 +19,7 @@
 //! ```
 
 use tronz::{
-    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner,
-    providers::ext::Trc10Api as _,
+    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, providers::ext::Trc10Api as _,
 };
 
 #[tokio::main]
@@ -44,14 +43,13 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     let balance = provider.get_account(issuer).await?.balance;
     println!("=== Issuer {} ===", issuer);
     println!("  balance : {} TRX", balance);
 
-    // ── Issue token ───────────────────────────────────────────────────────────
     //
     // Key parameters:
     //   precision   — decimal places (6 = same as USDT)
@@ -88,8 +86,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  status      : {:?}", info.status);
     println!("  energy used : {}", info.energy_usage);
     println!("  energy fee  : {} sun", info.energy_fee.as_sun());
-
-    // ── Look up the assigned token ID ─────────────────────────────────────────
 
     let issued = provider.get_asset_issue_by_account(issuer).await?;
     if let Some(token) = issued.iter().find(|t| t.name == token_name) {

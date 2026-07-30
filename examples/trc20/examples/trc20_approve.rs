@@ -18,7 +18,7 @@
 //!   cargo run -p examples-trc20 --example trc20_approve
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronSigner, U256, contract::Trc20Ext};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, U256, contract::Trc20Ext};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -42,20 +42,16 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     let token = provider.trc20(contract);
-
-    // ── Current allowance ─────────────────────────────────────────────────────
 
     let before = token.allowance(owner, spender).await?;
     println!("=== Allowance ===");
     println!("  owner   : {owner}");
     println!("  spender : {spender}");
     println!("  before  : {before}");
-
-    // ── Approve ───────────────────────────────────────────────────────────────
 
     println!("\n=== Approving {amount} ===");
     let pending = token.approve(spender, amount).await?;
@@ -66,8 +62,6 @@ async fn main() -> anyhow::Result<()> {
     if let Some(ref reason) = info.revert_reason {
         println!("  revert : {reason}");
     }
-
-    // ── Read back ─────────────────────────────────────────────────────────────
 
     let after = token.allowance(owner, spender).await?;
     println!("\n=== After ===");

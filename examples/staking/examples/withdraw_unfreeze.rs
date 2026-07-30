@@ -14,7 +14,7 @@
 //! TRON_PRIVATE_KEY=<key> cargo run -p examples-staking --example withdraw_unfreeze
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -28,10 +28,8 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
-
-    // ── Check pending unfreezes ────────────────────────────────────────────────
 
     let account = provider.get_account(me).await?;
     println!("=== Pending unfreezes ===");
@@ -42,8 +40,6 @@ async fn main() -> anyhow::Result<()> {
     for u in &account.unfrozen_v2 {
         println!("  {:?}  {} TRX  expires {} ms", u.resource, u.amount, u.expire_time_ms);
     }
-
-    // ── Check how much is withdrawable now ────────────────────────────────────
 
     let now_ms =
         std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH)?.as_millis() as i64;
@@ -57,8 +53,6 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    // ── Withdraw ──────────────────────────────────────────────────────────────
-
     let balance_before = provider.get_account(me).await?.balance;
     println!("\n  balance before : {} TRX", balance_before);
 
@@ -68,8 +62,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  waiting for confirmation…");
     let info = pending.get_receipt().await?;
     println!("  status : {:?}", info.status);
-
-    // ── After ─────────────────────────────────────────────────────────────────
 
     let balance_after = provider.get_account(me).await?.balance;
     println!("\n  balance after  : {} TRX", balance_after);

@@ -42,7 +42,6 @@ async fn main() -> anyhow::Result<()> {
 
     let solidity = SolidityProvider::connect(TRONGRID_NILE_SOLIDITY).await?;
 
-    // ── Encode calldata ───────────────────────────────────────────────────────
     //
     // `FunctionExt::abi_encode_input` prepends the 4-byte selector, producing the
     // full calldata TRON expects. `DynSolValue::Address` takes a 20-byte alloy
@@ -50,7 +49,6 @@ async fn main() -> anyhow::Result<()> {
     let func: Function = serde_json::from_str(BALANCE_OF)?;
     let data = func.abi_encode_input(&[DynSolValue::Address(holder.into())])?;
 
-    // ── Constant call against solidified state ────────────────────────────────
     let params = TriggerSmartContract {
         owner_address: holder,
         contract_address: contract,
@@ -65,7 +63,6 @@ async fn main() -> anyhow::Result<()> {
         anyhow::bail!("call reverted: {reason}");
     }
 
-    // ── Decode the ABI-encoded return data ────────────────────────────────────
     let decoded = func.abi_decode_output(&result.output)?;
     let balance = match decoded.into_iter().next() {
         Some(DynSolValue::Uint(n, _)) => n,

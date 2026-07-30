@@ -16,8 +16,7 @@
 //! ```
 
 use tronz::{
-    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx,
-    primitives::ResourceCode,
+    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx, primitives::ResourceCode,
 };
 
 #[tokio::main]
@@ -34,12 +33,10 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     let amount = Trx::from_sun(freeze_sun)?;
-
-    // ── Pre-flight check ──────────────────────────────────────────────────────
 
     let account = provider.get_account(me).await?;
     let staked_energy = account
@@ -67,8 +64,6 @@ async fn main() -> anyhow::Result<()> {
         anyhow::bail!("no unfreeze slots available — wait for existing unfreezes to complete");
     }
 
-    // ── Unfreeze ──────────────────────────────────────────────────────────────
-
     println!("\n=== Unfreeze {} energy ===", amount);
     let pending =
         provider.unfreeze_balance().amount(amount).resource(ResourceCode::Energy).send().await?;
@@ -77,8 +72,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  waiting for confirmation…");
     let info = pending.get_receipt().await?;
     println!("  status : {:?}", info.status);
-
-    // ── After ─────────────────────────────────────────────────────────────────
 
     let after = provider.get_account(me).await?;
     let new_staked = after

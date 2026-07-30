@@ -23,9 +23,8 @@ async fn main() -> anyhow::Result<()> {
         std::env::var("TRON_PROPOSAL_ID").ok().and_then(|s| s.parse().ok()).unwrap_or(1);
     let api_key = std::env::var("TRON_API_KEY").ok();
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
-
-    // ── List all proposals ────────────────────────────────────────────────────
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
     let proposals = provider.list_proposals().await?;
 
@@ -42,8 +41,6 @@ async fn main() -> anyhow::Result<()> {
         );
     }
 
-    // ── Paginated fetch (first 5) ─────────────────────────────────────────────
-
     println!("\n=== First 5 proposals (paginated) ===");
     let page = provider.get_paginated_proposal_list(0, 5).await?;
     for p in &page {
@@ -54,8 +51,6 @@ async fn main() -> anyhow::Result<()> {
             p.approvals.len()
         );
     }
-
-    // ── Fetch individual proposal ─────────────────────────────────────────────
 
     println!("\n=== Proposal #{proposal_id} ===");
     match provider.get_proposal_by_id(proposal_id).await {

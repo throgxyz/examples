@@ -19,7 +19,7 @@
 //! TRON_CONTRACT=<addr> TRON_ADDRESS=<addr> cargo run -p examples-trc20 --example trc20
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronSigner, U256, contract::Trc20Ext};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, U256, contract::Trc20Ext};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -34,10 +34,11 @@ async fn main() -> anyhow::Result<()> {
     let api_key = std::env::var("TRON_API_KEY").ok();
     let key_hex = std::env::var("TRON_PRIVATE_KEY").ok();
 
-    // ── Read-only section (no signer needed) ─────────────────────────────────
     {
-        let ro_provider =
-            ProviderBuilder::new().maybe_api_key(api_key.clone()).on_grpc(TRONGRID_NILE).await?;
+        let ro_provider = ProviderBuilder::new()
+            .maybe_api_key(api_key.clone())
+            .connect_grpc(TRONGRID_NILE)
+            .await?;
         let token = ro_provider.trc20(contract);
 
         println!("=== TRC20 token {} ===", contract);
@@ -51,7 +52,6 @@ async fn main() -> anyhow::Result<()> {
         println!("  {} (raw units)", balance);
     }
 
-    // ── Write section (requires TRON_PRIVATE_KEY) ─────────────────────────────
     let Some(key) = key_hex else {
         println!("\nSet TRON_PRIVATE_KEY to execute a transfer.");
         return Ok(());
@@ -75,21 +75,18 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
     let token = provider.trc20(contract);
 
-    // Balance before
     let before = token.balance_of(from).await?;
     println!("\n=== Transfer {} units from {} → {} ===", amount, from, to);
     println!("  balance before : {}", before);
 
-    // Transfer
     println!("  broadcasting…");
     let pending = token.transfer(to, amount).await?;
     println!("  tx_id          : 0x{}", hex::encode(pending.tx_id()));
 
-    // Wait for confirmation
     println!("  waiting for confirmation…");
     let info = pending.get_receipt().await?;
     println!("  status         : {:?}", info.status);
@@ -100,7 +97,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  energy used    : {}", info.energy_usage);
     println!("  energy fee     : {} sun", info.energy_fee.as_sun());
 
-    // Balance after
     let after = token.balance_of(from).await?;
     println!("  balance after  : {}", after);
 

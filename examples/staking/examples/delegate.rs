@@ -17,8 +17,7 @@
 //! ```
 
 use tronz::{
-    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx,
-    primitives::ResourceCode,
+    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx, primitives::ResourceCode,
 };
 
 #[tokio::main]
@@ -39,12 +38,10 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     let amount = Trx::from_sun(freeze_sun)?;
-
-    // ── Check how much is delegatable ─────────────────────────────────────────
 
     let max = provider.get_can_delegate_max(me, ResourceCode::Energy).await?;
     println!("=== Delegation ===");
@@ -61,8 +58,6 @@ async fn main() -> anyhow::Result<()> {
         );
     }
 
-    // ── Current delegations to receiver ──────────────────────────────────────
-
     let current = provider.get_delegated_resource(me, receiver).await?;
     if !current.is_empty() {
         println!("\n=== Existing delegations to {receiver} ===");
@@ -78,8 +73,6 @@ async fn main() -> anyhow::Result<()> {
             }
         }
     }
-
-    // ── Delegate ──────────────────────────────────────────────────────────────
 
     println!("\n=== Delegating {} energy to {} ===", amount, receiver);
 
@@ -99,8 +92,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  waiting for confirmation…");
     let info = pending.get_receipt().await?;
     println!("  status : {:?}", info.status);
-
-    // ── Verify ───────────────────────────────────────────────────────────────
 
     let after = provider.get_delegated_resource(me, receiver).await?;
     for d in &after {

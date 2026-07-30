@@ -1,7 +1,7 @@
 //! Broadcast on a FullNode, then wait for the transaction to *solidify*.
 //!
-//! FullNode inclusion (`await_confirmed`) can still be reorged; solidified state
-//! cannot. `PendingTransaction::await_solidified_success` bridges the two: it
+//! FullNode inclusion can still be reorged; solidified state cannot.
+//! `PendingTransaction::get_solidified_receipt` bridges the two: it
 //! broadcasts through the FullNode provider, then polls a `SolidityProvider`
 //! until the transaction is irreversible *and* its execution succeeded.
 //!
@@ -21,12 +21,12 @@ use core::time::Duration;
 
 use tronz::{
     Address, LocalSigner, ProviderBuilder, SolidityProvider, TRONGRID_NILE, TRONGRID_NILE_SOLIDITY,
-    TronProvider, TronSigner, Trx,
+    TronProvider, Trx,
 };
 
 // Solidification lags the head by ~19 blocks (~57 s). Poll a little past that.
 const POLL_INTERVAL: Duration = Duration::from_secs(3);
-const POLL_ATTEMPTS: u32 = 40; // ~120 s worst case
+const POLL_TIMEOUT: Duration = Duration::from_secs(120);
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -44,12 +44,11 @@ async fn main() -> anyhow::Result<()> {
         .unwrap_or_else(|| "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t".parse().unwrap());
     let amount = Trx::from_sun(amount_sun)?;
 
-    // ── Two providers: one to broadcast, one to confirm irreversibility ────────
     let full = ProviderBuilder::new()
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key.clone())
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     let solidity =
@@ -59,16 +58,18 @@ async fn main() -> anyhow::Result<()> {
     println!("To     : {to}");
     println!("Amount : {amount}");
 
-    // ── Broadcast on the FullNode ─────────────────────────────────────────────
     println!("\nBroadcasting…");
     let pending = full.send_trx().to(to).amount(amount).send().await?;
     let tx_id = pending.tx_id();
     println!("tx_id  : 0x{}", hex::encode(tx_id));
 
-    // ── Wait for irreversible success on the SolidityNode ──────────────────────
     println!("Waiting for solidification (may take ~1 min)…");
-    let info =
-        pending.await_solidified_success_with(&solidity, POLL_INTERVAL, POLL_ATTEMPTS).await?;
+    let info = pending
+        .with_poll_interval(POLL_INTERVAL)
+        .with_timeout(POLL_TIMEOUT)
+        .require_success()
+        .get_solidified_receipt(&solidity)
+        .await?;
 
     println!("\n=== Solidified ===");
     println!("  block       : {}", info.block_number);

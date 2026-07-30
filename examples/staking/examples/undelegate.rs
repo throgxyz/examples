@@ -16,8 +16,7 @@
 //! ```
 
 use tronz::{
-    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx,
-    primitives::ResourceCode,
+    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx, primitives::ResourceCode,
 };
 
 #[tokio::main]
@@ -34,10 +33,8 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
-
-    // ── Check current delegation ───────────────────────────────────────────────
 
     let delegations = provider.get_delegated_resource(me, receiver).await?;
     println!("=== Current delegation from {} to {} ===", me, receiver);
@@ -63,8 +60,6 @@ async fn main() -> anyhow::Result<()> {
         println!("  WARNING: delegation is locked until {expire_ms} ms — undelegate may fail");
     }
 
-    // ── Amount to reclaim ─────────────────────────────────────────────────────
-
     let amount: Trx = std::env::var("TRON_FREEZE_SUN")
         .ok()
         .and_then(|s| s.parse::<i64>().ok())
@@ -72,8 +67,6 @@ async fn main() -> anyhow::Result<()> {
         .unwrap_or(delegated_energy);
 
     println!("  reclaiming       : {} TRX", amount);
-
-    // ── Undelegate ────────────────────────────────────────────────────────────
 
     let pending = provider
         .undelegate_resource()
@@ -87,8 +80,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  waiting for confirmation…");
     let info = pending.get_receipt().await?;
     println!("  status : {:?}", info.status);
-
-    // ── Verify ───────────────────────────────────────────────────────────────
 
     let after = provider.get_delegated_resource(me, receiver).await?;
     let remaining = after.iter().map(|d| d.energy_amount).fold(Trx::ZERO, |acc, a| acc + a);

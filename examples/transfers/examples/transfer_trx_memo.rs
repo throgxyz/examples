@@ -17,7 +17,7 @@
 //! TRON_PRIVATE_KEY=<key> cargo run -p examples-transfers --example transfer_trx_memo
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -42,7 +42,7 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     println!("=== TRX transfer with memo ===");
@@ -51,7 +51,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  amount : {amount}");
     println!("  memo   : {:?}", memo);
 
-    // ── Attach memo and send ──────────────────────────────────────────────────
     //
     // `.memo()` accepts any `Into<Bytes>` — bytes are stored verbatim.
     // String memos should be UTF-8, but the protocol does not enforce this.
@@ -65,7 +64,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  status : {:?}", info.status);
     println!("  net fee: {} sun", info.net_fee.as_sun());
 
-    // ── Fetch receipt and confirm ─────────────────────────────────────────────
     //
     // The memo is stored in `Transaction.raw_data.data` inside the protobuf.
     // Use a block explorer or the full `get_transaction` gRPC call to inspect it.

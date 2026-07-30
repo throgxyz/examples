@@ -4,11 +4,6 @@
 //! the revert data is ABI-encoded and returned. tronz surfaces the decoded
 //! string in `TransactionInfo::revert_reason`.
 //!
-//! This example demonstrates how to:
-//! 1. Detect a revert from a constant call (`ContractError::Revert`)
-//! 2. Detect a revert from a broadcast call (`TransactionInfo::contract_result`)
-//! 3. Decode a raw ABI-encoded revert reason manually
-//!
 //! No private key required for constant calls.
 //!
 //! Required env:
@@ -33,9 +28,9 @@ async fn main() -> anyhow::Result<()> {
 
     let contract: tronz::Address = contract_str.parse()?;
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
-    // ── Trigger a revert via constant call ────────────────────────────────────
     //
     // Calling `transfer` as a constant call: a zero-value transfer to address(0)
     // will typically revert on a real ERC-20 (invalid recipient). The node
@@ -49,7 +44,6 @@ async fn main() -> anyhow::Result<()> {
     let instance = provider.contract(contract, Interface::empty());
     let result = instance.call_raw(calldata).call().await;
 
-    // Helper: check and decode an Error(string) revert payload.
     // The ABI selector for `Error(string)` is `0x08c379a0`.
     let decode_revert = |data: &[u8]| {
         if data.len() >= 4 && data[..4] == [0x08, 0xc3, 0x79, 0xa0] {

@@ -14,8 +14,7 @@
 //! ```
 
 use tronz::{
-    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx,
-    primitives::ResourceCode,
+    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx, primitives::ResourceCode,
 };
 
 #[tokio::main]
@@ -32,23 +31,20 @@ async fn main() -> anyhow::Result<()> {
         .ok()
         .map(|s| s.parse().expect("valid TRON_DELEGATE_TO address"));
 
-    // ── Connect ──────────────────────────────────────────────────────────────
     let provider = ProviderBuilder::new()
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     let amount = Trx::from_sun(freeze_sun)?;
 
-    // ── Current resources ─────────────────────────────────────────────────────
     let res_before = provider.get_account_resource(me).await?;
     println!("=== Resources before ===");
     println!("  energy    : {}/{}", res_before.energy_used, res_before.energy_limit);
     println!("  bandwidth : {}/{}", res_before.bandwidth_used, res_before.bandwidth_limit);
 
-    // ── Pending rewards ───────────────────────────────────────────────────────
     let reward = provider.get_reward(me).await?;
     println!("\n=== Pending reward ===");
     println!("  {} TRX", reward);
@@ -61,7 +57,6 @@ async fn main() -> anyhow::Result<()> {
         println!("  status: {:?}", info.status);
     }
 
-    // ── Freeze (stake) for energy ─────────────────────────────────────────────
     println!("\n=== Freeze {} for Energy ===", amount);
     let pending =
         provider.freeze_balance().amount(amount).resource(ResourceCode::Energy).send().await?;
@@ -69,7 +64,6 @@ async fn main() -> anyhow::Result<()> {
     let info = pending.get_receipt().await?;
     println!("  status: {:?}", info.status);
 
-    // ── Delegate energy (if requested) ────────────────────────────────────────
     if let Some(receiver) = delegate_to {
         println!("\n=== Delegate {} energy to {} ===", amount, receiver);
         let max = provider.get_can_delegate_max(me, ResourceCode::Energy).await?;
@@ -92,7 +86,6 @@ async fn main() -> anyhow::Result<()> {
         }
     }
 
-    // ── Resources after ───────────────────────────────────────────────────────
     let res_after = provider.get_account_resource(me).await?;
     println!("\n=== Resources after ===");
     println!("  energy    : {}/{}", res_after.energy_used, res_after.energy_limit);

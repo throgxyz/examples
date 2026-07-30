@@ -24,7 +24,7 @@
 //!   cargo run -p examples-trc20 --example trc20_transfer_from
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronSigner, U256, contract::Trc20Ext};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, U256, contract::Trc20Ext};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -50,12 +50,10 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     let token = provider.trc20(contract);
-
-    // ── Check allowance ───────────────────────────────────────────────────────
 
     let allowance = token.allowance(owner, spender).await?;
     println!("=== transferFrom ===");
@@ -72,12 +70,8 @@ async fn main() -> anyhow::Result<()> {
         );
     }
 
-    // ── Owner balance before ──────────────────────────────────────────────────
-
     let balance_before = token.balance_of(owner).await?;
     println!("\n  owner balance before : {balance_before}");
-
-    // ── transferFrom ──────────────────────────────────────────────────────────
 
     println!("  broadcasting…");
     let pending = token.transfer_from(owner, recipient, amount).await?;
@@ -89,8 +83,6 @@ async fn main() -> anyhow::Result<()> {
         println!("  revert : {reason}");
     }
     println!("  energy used : {}", info.energy_usage);
-
-    // ── After ─────────────────────────────────────────────────────────────────
 
     let balance_after = token.balance_of(owner).await?;
     let allowance_after = token.allowance(owner, spender).await?;

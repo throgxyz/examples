@@ -14,7 +14,7 @@
 //! TRON_PRIVATE_KEY=<key> cargo run -p examples-staking --example cancel_unfreeze
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -28,10 +28,8 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
-
-    // ── Check pending unfreezes ────────────────────────────────────────────────
 
     let account = provider.get_account(me).await?;
     println!("=== Pending unfreezes ===");
@@ -48,7 +46,6 @@ async fn main() -> anyhow::Result<()> {
     }
     println!("  total pending : {} TRX", total_pending);
 
-    // ── Cancel all ────────────────────────────────────────────────────────────
     //
     // All pending unfreezes are cancelled in one transaction, regardless of
     // resource type.
@@ -59,8 +56,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  waiting for confirmation…");
     let info = pending.get_receipt().await?;
     println!("  status : {:?}", info.status);
-
-    // ── After ─────────────────────────────────────────────────────────────────
 
     let after = provider.get_account(me).await?;
     let re_staked: tronz::Trx =

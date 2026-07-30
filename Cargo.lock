@@ -14,15 +14,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "aho-corasick"
-version = "1.1.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ddd31a130427c27518df266943a5308ed92d4b226cc639f5a8f1002816174301"
-dependencies = [
- "memchr",
-]
-
-[[package]]
 name = "alloy-dyn-abi"
 version = "1.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -32,6 +23,7 @@ dependencies = [
  "alloy-primitives",
  "alloy-sol-type-parser",
  "alloy-sol-types",
+ "derive_more",
  "itoa",
  "serde",
  "serde_json",
@@ -1475,6 +1467,7 @@ name = "examples-sol-macro"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "futures",
  "hex",
  "tokio",
  "tronz",
@@ -1600,12 +1593,6 @@ dependencies = [
  "rustc-hex",
  "static_assertions",
 ]
-
-[[package]]
-name = "fixedbitset"
-version = "0.5.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d674e81391d1e1ab681a28d99df07927c6d4aa5b027d7da16ba32d1d21ecd99"
 
 [[package]]
 name = "fnv"
@@ -2415,12 +2402,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "multimap"
-version = "0.10.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d87ecb2933e8aeadb3e3a02b828fed80a7528047e68b4f424523a0981a3a084"
-
-[[package]]
 name = "num-bigint"
 version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2541,17 +2522,6 @@ checksum = "e0848c601009d37dfa3430c4666e147e49cdcf1b92ecd3e63657d8a5f19da662"
 dependencies = [
  "memchr",
  "ucd-trie",
-]
-
-[[package]]
-name = "petgraph"
-version = "0.8.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8701b58ea97060d5e5b155d383a69952a60943f0e6dfe30b04c287beb0b27455"
-dependencies = [
- "fixedbitset",
- "hashbrown 0.15.5",
- "indexmap",
 ]
 
 [[package]]
@@ -2717,27 +2687,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "prost-build"
-version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "03da047801ff44bb6a4d407d4860c05fd70bb81714e6b2f3812603d5b145b042"
-dependencies = [
- "heck",
- "itertools 0.14.0",
- "log",
- "multimap",
- "petgraph",
- "prettyplease",
- "prost",
- "prost-types",
- "pulldown-cmark",
- "pulldown-cmark-to-cmark",
- "regex",
- "syn 2.0.118",
- "tempfile",
-]
-
-[[package]]
 name = "prost-derive"
 version = "0.14.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2757,26 +2706,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f94967dc7688f3054c7fac87473ffae4cc4c3904800e2d9f5b857246d8963b0a"
 dependencies = [
  "prost",
-]
-
-[[package]]
-name = "pulldown-cmark"
-version = "0.13.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e9f068eba8e7071c5f9511831b44f32c740d5adf574e990f946ddb53db2f314e"
-dependencies = [
- "bitflags",
- "memchr",
- "unicase",
-]
-
-[[package]]
-name = "pulldown-cmark-to-cmark"
-version = "22.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50793def1b900256624a709439404384204a5dc3a6ec580281bfaac35e882e90"
-dependencies = [
- "pulldown-cmark",
 ]
 
 [[package]]
@@ -2889,29 +2818,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b5e48930979c155e2f33aa36ab3119b5ee81332beb6482199a8ecd6029b80b59"
 dependencies = [
  "rustversion",
-]
-
-[[package]]
-name = "regex"
-version = "1.12.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f1292b7759ae1cb9ec195452d1390a074f0cd8541ab7a5a8c31cd6db45d4a6ba"
-dependencies = [
- "aho-corasick",
- "memchr",
- "regex-automata",
- "regex-syntax",
-]
-
-[[package]]
-name = "regex-automata"
-version = "0.4.14"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6e1dd4122fc1595e8162618945476892eefca7b88c52820e74af6262213cae8f"
-dependencies = [
- "aho-corasick",
- "memchr",
- "regex-syntax",
 ]
 
 [[package]]
@@ -3752,18 +3658,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tonic-build"
-version = "0.14.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c68f61875ac5293cf72e6c8cf0158086428c82c37229e98c840878f1706b0322"
-dependencies = [
- "prettyplease",
- "proc-macro2",
- "quote",
- "syn 2.0.118",
-]
-
-[[package]]
 name = "tonic-prost"
 version = "0.14.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3772,22 +3666,6 @@ dependencies = [
  "bytes",
  "prost",
  "tonic",
-]
-
-[[package]]
-name = "tonic-prost-build"
-version = "0.14.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "654e5643eff75d7f8c99197ce1440ed19a3474eada74c12bbac488b2cafdae27"
-dependencies = [
- "prettyplease",
- "proc-macro2",
- "prost-build",
- "prost-types",
- "quote",
- "syn 2.0.118",
- "tempfile",
- "tonic-build",
 ]
 
 [[package]]
@@ -3854,23 +3732,24 @@ dependencies = [
 
 [[package]]
 name = "tronz"
-version = "0.4.1"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "88ccd458358eee8aa7742e074c296bc953ba87e1aae8ae3bebd3f1ba43d6c8a7"
+checksum = "3ace5dfa96296a09beb8ce587376d1ebfed9e417af0671f94aa7c36d8f1f4cd6"
 dependencies = [
  "tronz-abi",
  "tronz-contract",
  "tronz-primitives",
  "tronz-provider",
+ "tronz-rpc-types",
  "tronz-signer",
  "tronz-signer-aws",
 ]
 
 [[package]]
 name = "tronz-abi"
-version = "0.4.1"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d29d554c9fa4d0c086dbecdcdef7a9d12b776c6b0264c8665627039eec09c685"
+checksum = "0395110b265845e958ef8ef25ee60a0316a051527820680d3253310a4a7d0928"
 dependencies = [
  "alloy-json-abi",
  "thiserror 2.0.18",
@@ -3878,16 +3757,18 @@ dependencies = [
 
 [[package]]
 name = "tronz-contract"
-version = "0.4.1"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b48eca64f91b77abacacf8f6659fbe457657feda2295aa566b767b6eb3c67d00"
+checksum = "470ff500216a654083431f94287eb9c3e4d55eaa9f6470e3da0a7ac67ad32a73"
 dependencies = [
  "alloy-dyn-abi",
  "alloy-json-abi",
  "alloy-primitives",
  "alloy-sol-macro",
  "alloy-sol-types",
+ "futures",
  "thiserror 2.0.18",
+ "tokio",
  "tronz-abi",
  "tronz-primitives",
  "tronz-provider",
@@ -3896,9 +3777,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-primitives"
-version = "0.4.1"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d87e8fbd202ef18eec91db77b0409525065178871e9eb97fd9fdcd997a3e533d"
+checksum = "478ce1029cd6f87aada7e92e7089d05ae6a1f27286e00af4bed05406d978febb"
 dependencies = [
  "alloy-primitives",
  "bs58",
@@ -3910,42 +3791,62 @@ dependencies = [
 
 [[package]]
 name = "tronz-provider"
-version = "0.4.1"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a46ad6b776012d211b80c6ed9e17c285ae27e16b689e8219d95c579c78e661ec"
+checksum = "659893871ac23ed2d63cba141b8a0633f9f3f360cad59e91e963761edf13cf71"
 dependencies = [
+ "async-trait",
+ "auto_impl",
  "fastrand",
  "futures",
  "prost",
- "prost-types",
- "sha2 0.11.0",
  "thiserror 2.0.18",
  "tokio",
  "tonic",
  "tonic-prost",
- "tonic-prost-build",
  "tracing",
- "tronz-abi",
  "tronz-primitives",
+ "tronz-rpc-types",
  "tronz-signer",
 ]
 
 [[package]]
-name = "tronz-signer"
-version = "0.4.1"
+name = "tronz-rpc-types"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9de61b126da30bb2514c7c89e4c9f094f0438234266dd1d771bccf8426b43d56"
+checksum = "c26e1feb4369cea213f468098c1a70dfbf51e2a56541b6e4d3302252fe187504"
+dependencies = [
+ "prost",
+ "prost-types",
+ "sha2 0.11.0",
+ "thiserror 2.0.18",
+ "tracing",
+ "tronz-abi",
+ "tronz-primitives",
+]
+
+[[package]]
+name = "tronz-signer"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f77fba4c3f261a5b830709161c8927a2f35222b015eeb710eefa05381c867af3"
 dependencies = [
  "aes",
+ "alloy-dyn-abi",
+ "alloy-sol-types",
+ "async-trait",
+ "auto_impl",
  "coins-bip32",
  "coins-bip39",
  "ctr",
  "hex",
  "k256",
+ "pbkdf2 0.13.0",
  "rand 0.9.4",
  "scrypt",
  "serde",
  "serde_json",
+ "sha2 0.11.0",
  "sha3 0.11.0",
  "thiserror 2.0.18",
  "tronz-primitives",
@@ -3954,10 +3855,11 @@ dependencies = [
 
 [[package]]
 name = "tronz-signer-aws"
-version = "0.4.1"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9d8d823bb34937134231a459168ab25cae11de985281c41d873342c9e811795f"
+checksum = "bcf449832582016d0ee8f43d16b336564fdf3632239d5f4bbd80f75a7b1ed650"
 dependencies = [
+ "async-trait",
  "aws-sdk-kms",
  "hex",
  "k256",
@@ -3970,9 +3872,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-sol-macro"
-version = "0.4.1"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7a2a2623417fb9f01a72db2f60edf3620916245987fe8edffab6df06484594e7"
+checksum = "23b0f14794a94d502f722ba72cfffc16c1100e185da0535ec0aa673bbaf02734"
 dependencies = [
  "alloy-json-abi",
  "proc-macro2",
@@ -4016,12 +3918,6 @@ name = "unarray"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "eaea85b334db583fe3274d12b4cd1880032beab409c0d774be044d4480ab9a94"
-
-[[package]]
-name = "unicase"
-version = "2.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dbc4bc3a9f746d862c45cb89d705aa10f187bb96c76001afab07a0d35ce60142"
 
 [[package]]
 name = "unicode-ident"

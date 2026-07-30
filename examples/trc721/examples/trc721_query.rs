@@ -34,7 +34,8 @@ async fn main() -> anyhow::Result<()> {
 
     let contract: Address = contract_str.parse()?;
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
     let nft = provider.trc721(contract);
 

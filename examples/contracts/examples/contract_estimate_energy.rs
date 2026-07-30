@@ -31,9 +31,9 @@ async fn main() -> anyhow::Result<()> {
 
     let contract: tronz::Address = contract_str.parse()?;
 
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(TRONGRID_NILE).await?;
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(TRONGRID_NILE).await?;
 
-    // ── Estimate energy for `balanceOf` ───────────────────────────────────────
     //
     // `balanceOf` is a view function — it reads state but doesn't modify it.
     // The energy estimate is usually small (~700 energy units for USDT).
@@ -50,7 +50,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  function   : balanceOf(address)");
     println!("  energy     : {energy_estimate} units");
 
-    // Convert to approximate TRX cost.
     // Dynamic energy price varies; 420 sun/energy is a typical ballpark.
     let approx_sun = energy_estimate * 420;
     println!(
@@ -59,7 +58,6 @@ async fn main() -> anyhow::Result<()> {
         approx_sun as f64 / 1_000_000.0
     );
 
-    // ── Estimate energy for `transfer` ────────────────────────────────────────
     //
     // `transfer` is a state-changing function and costs more energy.
     // The estimate uses the current state; actual cost may differ slightly.
@@ -82,9 +80,7 @@ async fn main() -> anyhow::Result<()> {
         approx_sun2 as f64 / 1_000_000.0
     );
 
-    // ── Chain parameters ──────────────────────────────────────────────────────
     //
-    // The actual energy price is stored in chain parameters.
 
     let params = provider.chain_parameters().await?;
     if let Some(price) = params.get("getEnergyFee") {

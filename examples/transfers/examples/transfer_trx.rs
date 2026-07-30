@@ -12,7 +12,7 @@
 //! TRON_PRIVATE_KEY=<key> cargo run -p examples-transfers --example transfer_trx
 //! ```
 
-use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx};
+use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -32,29 +32,25 @@ async fn main() -> anyhow::Result<()> {
 
     let amount = Trx::from_sun(amount_sun)?;
 
-    // ── Connect ──────────────────────────────────────────────────────────────
     let provider = ProviderBuilder::new()
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
-    // ── Pre-flight balance check ──────────────────────────────────────────────
     let before = provider.get_account(from).await?.balance;
     println!("From    : {from}");
     println!("To      : {to}");
     println!("Amount  : {amount}");
     println!("Balance : {} TRX (before)", before);
 
-    // ── Build and send ────────────────────────────────────────────────────────
     println!("\nBroadcasting…");
     let pending = provider.send_trx().to(to).amount(amount).send().await?;
 
     let tx_id = pending.tx_id();
     println!("tx_id   : 0x{}", hex::encode(tx_id));
 
-    // ── Wait for confirmation ─────────────────────────────────────────────────
     println!("Waiting for confirmation…");
     let info = pending.get_receipt().await?;
 
@@ -65,7 +61,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  net used    : {}", info.net_usage);
     println!("  net fee     : {} sun", info.net_fee.as_sun());
 
-    // ── Post-flight balance ───────────────────────────────────────────────────
     let after = provider.get_account(from).await?.balance;
     println!("\nBalance : {} TRX (after)", after);
 

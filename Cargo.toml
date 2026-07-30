@@ -27,11 +27,12 @@ manual_assert         = "warn"
 needless_continue     = "warn"
 
 [workspace.dependencies]
-tronz            = { version = "0.4.1", features = ["signer-mnemonic", "signer-keystore"] }
+tronz            = { version = "0.5.0", features = ["signer-mnemonic", "signer-keystore", "signer-tip712"] }
 tokio            = { version = "1", features = ["rt-multi-thread", "macros"] }
 anyhow           = "1"
 tempfile         = "3"
 serde_json       = "1"
+futures          = "0.3"
 alloy-primitives = { version = "1", default-features = false, features = ["std"] }
 alloy-dyn-abi    = { version = "1", default-features = false, features = ["std"] }
 alloy-json-abi   = { version = "1", default-features = false, features = ["std"] }

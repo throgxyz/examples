@@ -27,15 +27,13 @@ async fn main() -> anyhow::Result<()> {
     println!("=== Connect to custom node ===");
     println!("  url : {node_url}");
 
-    // ── Connect ──────────────────────────────────────────────────────────────
     //
     // Pass any URL string to `on_grpc` — it works for both custom nodes and
     // the well-known TronGrid constants (TRONGRID_MAINNET, TRONGRID_NILE).
     // The API key is injected as the `tron-pro-api-key` gRPC metadata header
     // on every request when set.
-    let provider = ProviderBuilder::new().maybe_api_key(api_key).on_grpc(node_url.as_str()).await?;
-
-    // ── Smoke test ────────────────────────────────────────────────────────────
+    let provider =
+        ProviderBuilder::new().maybe_api_key(api_key).connect_grpc(node_url.as_str()).await?;
 
     let block = provider.get_now_block().await?;
     println!("  connected   : OK");

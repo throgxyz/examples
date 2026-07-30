@@ -14,8 +14,7 @@
 //! ```
 
 use tronz::{
-    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, TronSigner, Trx,
-    contract::ContractExt,
+    LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx, contract::ContractExt,
 };
 
 // Hand-assembled EVM bytecode for a minimal Counter contract:
@@ -35,10 +34,8 @@ use tronz::{
 //   [0x00–0x0a] constructor  – CODECOPY(0, 0x0b, 0x35) then RETURN 0x35 bytes
 //   [0x0b–0x3f] runtime      – dispatcher + count() + increment()
 const COUNTER_BYTECODE: &str = concat!(
-    // ── Constructor (11 bytes) ────────────────────────────────────────────────
     // PUSH1 0x35   DUP1   PUSH1 0x0b   PUSH1 0x00   CODECOPY   PUSH1 0x00   RETURN
     "603580600b6000396000f3",
-    // ── Runtime (53 bytes) ───────────────────────────────────────────────────
     // Dispatcher: calldataload >> 0xe0 → selector
     "6000", // PUSH1 0  (calldataload offset)
     "35",   // CALLDATALOAD
@@ -98,7 +95,7 @@ async fn main() -> anyhow::Result<()> {
         .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
-        .on_grpc(TRONGRID_NILE)
+        .connect_grpc(TRONGRID_NILE)
         .await?;
 
     let balance = provider.get_account(deployer).await?.balance;
@@ -109,8 +106,6 @@ async fn main() -> anyhow::Result<()> {
     if balance < Trx::from_sun(5_000_000)? {
         anyhow::bail!("balance too low — need at least 5 TRX for deployment");
     }
-
-    // ── Deploy ────────────────────────────────────────────────────────────────
 
     let bytecode = hex::decode(COUNTER_BYTECODE)?;
 
@@ -141,8 +136,6 @@ async fn main() -> anyhow::Result<()> {
     println!("\n=== Deployed contract ===");
     println!("  address : {contract_addr}");
     println!("  explorer: https://nile.tronscan.org/#/contract/{contract_addr}");
-
-    // ── Verify by calling count() ─────────────────────────────────────────────
 
     use alloy_dyn_abi::DynSolValue;
     use alloy_json_abi::JsonAbi;

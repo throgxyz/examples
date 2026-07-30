@@ -39,7 +39,7 @@ async fn main() -> anyhow::Result<()> {
     // Sign an arbitrary 32-byte hash. The signature is a TRON-style
     // recoverable signature (r ‖ s ‖ v), with `s` normalized to low-S.
     let hash = B256::repeat_byte(0xab);
-    let sig = signer.sign_hash(hash).await?;
+    let sig = signer.sign_hash(&hash).await?;
 
     println!("\n=== Signature ===");
     println!("  hash : 0x{}", hex::encode(hash));

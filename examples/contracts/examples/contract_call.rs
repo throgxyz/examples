@@ -3,12 +3,6 @@
 //! `trigger_constant_contract` simulates execution and returns output without
 //! creating a transaction. It's the TRON equivalent of `eth_call`.
 //!
-//! This example calls a TRC20 contract three ways:
-//!
-//! 1. **`Trc20Instance`** — high-level typed API, no ABI file
-//! 2. **Raw calldata** — manually ABI-encode selector and decode output
-//! 3. **Dynamic `Interface`** — load a JSON ABI and call by function name
-//!
 //! No private key required (read-only).
 //!
 //! Required env:
@@ -36,10 +30,8 @@ async fn main() -> anyhow::Result<()> {
 
     let contract: tronz::Address = contract_str.parse()?;
 
-    // ── Approach 1: Trc20Instance (typed, no ABI file) ───────────────────────
-
     let provider =
-        ProviderBuilder::new().maybe_api_key(api_key.clone()).on_grpc(TRONGRID_NILE).await?;
+        ProviderBuilder::new().maybe_api_key(api_key.clone()).connect_grpc(TRONGRID_NILE).await?;
 
     let token = provider.trc20(contract);
     println!("=== Trc20Instance (typed calls) ===");
@@ -48,7 +40,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  decimals : {}", token.decimals().await?);
     println!("  supply   : {}", token.total_supply().await?);
 
-    // ── Approach 2: ContractInstance with raw calldata ────────────────────────
     //
     // Manually encode the `name()` selector and call `.call().await`.
 
@@ -61,7 +52,6 @@ async fn main() -> anyhow::Result<()> {
     println!("\n=== Raw calldata + manual decode ===");
     println!("  name (decoded) : {name}");
 
-    // ── Approach 3: Interface + JSON ABI (dynamic) ────────────────────────────
     //
     // Build an `Interface` from a JSON ABI string and call by function name.
     // Useful when you don't have compile-time `sol!` bindings.

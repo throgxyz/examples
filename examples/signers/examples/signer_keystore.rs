@@ -1,10 +1,5 @@
 //! Web3 Secret Storage V3 keystore — encrypt and decrypt a TRON private key.
 //!
-//! Shows how to:
-//! - Encrypt a private key to a password-protected JSON file
-//! - Decrypt the file back to a working signer
-//! - Verify the address is preserved round-trip
-//!
 //! No network access required.
 //!
 //! ```bash
@@ -14,18 +9,14 @@
 //! The keystore format is compatible with TronLink, go-ethereum, and gotron-sdk.
 //! It stores the TRON address in base58check format (not Ethereum hex).
 
-use tronz::{LocalSigner, TronSigner};
+use tronz::{LocalSigner, signers::keystore::KdfparamsType};
 
 fn main() -> anyhow::Result<()> {
-    // ── 1. Create a signer from a known private key ───────────────────────────
-
     let private_key = "b5a4cea271ff424d7c31dc12a3e43e401df7a40d7412a15750f3f0b6b5449a28";
     let signer = LocalSigner::from_hex(private_key)?;
 
     println!("=== Original signer ===");
     println!("  address : {}", signer.address());
-
-    // ── 2. Encrypt to a temp directory ────────────────────────────────────────
 
     let dir = tempfile::tempdir()?;
     let password = "my-secure-password";
@@ -36,8 +27,6 @@ fn main() -> anyhow::Result<()> {
     let path = signer.encrypt_keystore(dir.path(), password)?;
     println!("  saved to : {}", path.display());
 
-    // ── 3. Inspect the JSON ───────────────────────────────────────────────────
-
     let json = std::fs::read_to_string(&path)?;
     let ks: tronz::KeystoreFile = serde_json::from_str(&json)?;
 
@@ -45,10 +34,15 @@ fn main() -> anyhow::Result<()> {
     println!("  version  : {}", ks.version);
     println!("  id       : {}", ks.id);
     println!("  address  : {}", ks.address);
-    println!("  kdf      : {} (N={})", ks.crypto.kdf, ks.crypto.kdfparams.n);
+    match &ks.crypto.kdfparams {
+        KdfparamsType::Scrypt { n, .. } => {
+            println!("  kdf      : {} (N={n})", ks.crypto.kdf);
+        }
+        KdfparamsType::Pbkdf2 { c, .. } => {
+            println!("  kdf      : {} (iterations={c})", ks.crypto.kdf);
+        }
+    }
     println!("  cipher   : {}", ks.crypto.cipher);
-
-    // ── 4. Decrypt and verify ─────────────────────────────────────────────────
 
     println!("\n=== Decrypting ===");
     let recovered = LocalSigner::decrypt_keystore(&path, password)?;
@@ -56,8 +50,6 @@ fn main() -> anyhow::Result<()> {
 
     assert_eq!(signer.address(), recovered.address(), "round-trip address mismatch");
     println!("  addresses match   : true");
-
-    // ── 5. Wrong password gives a clear error ─────────────────────────────────
 
     let err = LocalSigner::decrypt_keystore(&path, "wrong-password").unwrap_err();
     println!("\n=== Wrong password ===");

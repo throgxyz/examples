@@ -1,10 +1,5 @@
 //! BIP-39 mnemonic + BIP-44 HD key derivation for TRON.
 //!
-//! Shows how to:
-//! - Derive a signer from an existing 12/24-word mnemonic phrase
-//! - Generate a fresh random mnemonic
-//! - Derive multiple accounts from the same phrase using different indices
-//!
 //! No network access required.
 //!
 //! ```bash
@@ -14,11 +9,9 @@
 //! WARNING: This example prints private keys to stdout — only use it for
 //! throwaway testnet keys.
 
-use tronz::{MnemonicBuilder, TronSigner, coins_bip39::English};
+use tronz::{MnemonicBuilder, coins_bip39::English};
 
 fn main() -> anyhow::Result<()> {
-    // ── 1. Derive from an existing phrase ─────────────────────────────────────
-
     let phrase = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
 
     // Default path: m/44'/195'/0'/0/0  (TRON coin type = 195)
@@ -30,15 +23,11 @@ fn main() -> anyhow::Result<()> {
     println!("  path    : m/44'/195'/0'/0/0");
     println!("  address : {}", signer.address());
 
-    // ── 2. Multiple accounts from the same phrase ──────────────────────────────
-
     println!("\n=== First 3 accounts from same phrase ===");
     for i in 0u32..3 {
         let s = MnemonicBuilder::<English>::default().phrase(phrase).index(i)?.build()?;
         println!("  index {i}: {}", s.address());
     }
-
-    // ── 3. Efficient multi-account derivation via parent key ───────────────────
 
     // build_parent_key() derives once to m/44'/195'/0'/0, then child() is cheap.
     let parent = MnemonicBuilder::<English>::default().phrase(phrase).build_parent_key()?;
@@ -49,8 +38,6 @@ fn main() -> anyhow::Result<()> {
         println!("  index {i}: {}", s.address());
     }
 
-    // ── 4. Generate a fresh random 24-word mnemonic ────────────────────────────
-
     let (new_signer, new_phrase) =
         MnemonicBuilder::<English>::default().word_count(24).build_random()?;
 
@@ -58,8 +45,6 @@ fn main() -> anyhow::Result<()> {
     println!("  phrase  : {new_phrase}");
     println!("  address : {}", new_signer.address());
     println!("  words   : {}", new_phrase.split_whitespace().count());
-
-    // ── 5. Optional BIP-39 passphrase ─────────────────────────────────────────
 
     let with_pass = MnemonicBuilder::<English>::default()
         .phrase(phrase)
