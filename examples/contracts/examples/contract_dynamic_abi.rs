@@ -17,8 +17,8 @@
 //!   TRON_API_KEY  — TronGrid API key
 //!
 //! ```bash
-//! TRON_CONTRACT=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t \
-//! TRON_ADDRESS=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t \
+//! TRON_CONTRACT=TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf \
+//! TRON_ADDRESS=TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf \
 //!   cargo run -p examples-contracts --example contract_dynamic_abi
 //! ```
 
