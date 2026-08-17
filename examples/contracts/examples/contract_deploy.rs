@@ -126,7 +126,7 @@ async fn main() -> anyhow::Result<()> {
 
     println!("\n=== Deployment receipt ===");
     println!("  status          : {:?}", info.status);
-    println!("  energy used     : {}", info.energy_usage);
+    println!("  energy used     : {}", info.receipt.energy_usage);
     println!("  energy fee      : {} sun", info.energy_fee.as_sun());
 
     let contract_addr = info.contract_address.ok_or_else(|| {

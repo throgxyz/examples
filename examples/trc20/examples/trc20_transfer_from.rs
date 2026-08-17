@@ -82,7 +82,7 @@ async fn main() -> anyhow::Result<()> {
     if let Some(ref reason) = info.revert_reason {
         println!("  revert : {reason}");
     }
-    println!("  energy used : {}", info.energy_usage);
+    println!("  energy used : {}", info.receipt.energy_usage);
 
     let balance_after = token.balance_of(owner).await?;
     let allowance_after = token.allowance(owner, spender).await?;

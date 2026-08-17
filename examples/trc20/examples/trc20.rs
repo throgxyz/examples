@@ -94,7 +94,7 @@ async fn main() -> anyhow::Result<()> {
     if let Some(reason) = &info.revert_reason {
         println!("  revert reason  : {}", reason);
     }
-    println!("  energy used    : {}", info.energy_usage);
+    println!("  energy used    : {}", info.receipt.energy_usage);
     println!("  energy fee     : {} sun", info.energy_fee.as_sun());
 
     let after = token.balance_of(from).await?;

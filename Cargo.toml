@@ -5,7 +5,7 @@ resolver = "2"
 [workspace.package]
 version      = "0.1.0"
 edition      = "2024"
-rust-version = "1.85"
+rust-version = "1.91.1"
 authors      = ["tronz contributors"]
 license      = "MIT OR Apache-2.0"
 homepage     = "https://github.com/throgxyz/examples"
@@ -27,7 +27,7 @@ manual_assert         = "warn"
 needless_continue     = "warn"
 
 [workspace.dependencies]
-tronz            = { version = "0.5.0", features = ["signer-mnemonic", "signer-keystore", "signer-tip712"] }
+tronz            = { version = "0.5.1", features = ["signer-mnemonic", "signer-keystore", "signer-tip712"] }
 tokio            = { version = "1", features = ["rt-multi-thread", "macros"] }
 anyhow           = "1"
 tempfile         = "3"

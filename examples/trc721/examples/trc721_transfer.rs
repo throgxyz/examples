@@ -62,7 +62,7 @@ async fn main() -> anyhow::Result<()> {
     let info = pending.get_receipt().await?;
     println!("\n=== Receipt ===");
     println!("  status       : {:?}", info.status);
-    println!("  energy used  : {}", info.energy_usage);
+    println!("  energy used  : {}", info.receipt.energy_usage);
     if let Some(ref reason) = info.revert_reason {
         println!("  revert reason: {reason}");
     }

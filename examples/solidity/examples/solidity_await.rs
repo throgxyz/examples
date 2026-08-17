@@ -74,7 +74,7 @@ async fn main() -> anyhow::Result<()> {
     println!("\n=== Solidified ===");
     println!("  block       : {}", info.block_number);
     println!("  status      : {:?}", info.status);
-    println!("  energy used : {}", info.energy_usage);
+    println!("  energy used : {}", info.receipt.energy_usage);
     println!("  net fee     : {} sun", info.net_fee.as_sun());
 
     Ok(())

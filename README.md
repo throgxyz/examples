@@ -2,9 +2,9 @@
 
 Runnable examples for the [tronz](https://github.com/throgxyz/tronz) TRON SDK.
 
-These examples track **tronz `0.5.0`**.
+These examples track **tronz `0.5.1`**.
 
-All examples target the [Nile testnet](https://nileex.io). Read-only examples run without a private key; examples that send transactions require `TRON_PRIVATE_KEY=<hex>`.
+Examples target the [Nile testnet](https://nileex.io) unless their documentation specifies a custom or local endpoint. Read-only examples run without a private key; examples that send transactions require `TRON_PRIVATE_KEY=<hex>`.
 
 ## Usage
 
@@ -25,9 +25,11 @@ This repository contains the following examples:
   - [x] [Address format conversions](./examples/queries/examples/address_formats.rs)
   - [x] [TRX amount math](./examples/queries/examples/amount_math.rs)
   - [x] [Connect to a custom endpoint](./examples/queries/examples/connect_custom.rs)
+  - [x] [Connect to a local TRE FullNode and SolidityNode](./examples/queries/examples/connect_local_tre.rs)
   - [x] [List witnesses (SRs)](./examples/queries/examples/list_witnesses.rs)
   - [x] [Page witnesses by live votes](./examples/queries/examples/witness_pagination.rs)
   - [x] [List governance proposals](./examples/queries/examples/governance_list.rs)
+  - [x] [Run a governance proposal lifecycle](./examples/queries/examples/governance_lifecycle.rs)
 - [x] Signers
   - [x] [Generate a random keypair](./examples/signers/examples/signer_generate.rs)
   - [x] [Sign and verify a hash](./examples/signers/examples/signer_local.rs)
@@ -75,6 +77,10 @@ This repository contains the following examples:
   - [x] [Check a TRC10 balance](./examples/trc10/examples/trc10_balance.rs)
   - [x] [Transfer TRC10 tokens](./examples/trc10/examples/trc10_transfer.rs)
   - [x] [Issue a new TRC10 token](./examples/trc10/examples/trc10_issue.rs)
+  - [x] [Update TRC10 metadata and limits](./examples/trc10/examples/trc10_update.rs)
+- [x] Exchange and Market
+  - [x] [Create and manage an exchange pool](./examples/exchange/examples/exchange_lifecycle.rs)
+  - [x] [Query market pairs, prices, and orders](./examples/exchange/examples/market_queries.rs)
 - [x] TRC20
   - [x] [Balance and transfer](./examples/trc20/examples/trc20.rs)
   - [x] [Approve and allowance](./examples/trc20/examples/trc20_approve.rs)

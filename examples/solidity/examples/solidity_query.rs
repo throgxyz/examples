@@ -77,7 +77,7 @@ async fn main() -> anyhow::Result<()> {
                 println!("\n=== Receipt {tx_hex} ===");
                 println!("  block       : {}", info.block_number);
                 println!("  status      : {:?}", info.status);
-                println!("  energy used : {}", info.energy_usage);
+                println!("  energy used : {}", info.receipt.energy_usage);
             }
             None => println!("\n{tx_hex} has not solidified yet"),
         }

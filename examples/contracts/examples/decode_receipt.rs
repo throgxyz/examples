@@ -46,7 +46,7 @@ async fn main() -> anyhow::Result<()> {
     println!("  contract    : {:?}", info.contract_result);
 
     println!("\n=== Resource usage ===");
-    println!("  energy used : {}", info.energy_usage);
+    println!("  energy used : {}", info.receipt.energy_usage);
     println!("  energy fee  : {} sun", info.energy_fee.as_sun());
     println!("  net used    : {}", info.net_usage);
     println!("  net fee     : {} sun", info.net_fee.as_sun());

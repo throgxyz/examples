@@ -84,7 +84,7 @@ async fn main() -> anyhow::Result<()> {
 
     println!("\n=== Receipt ===");
     println!("  status      : {:?}", info.status);
-    println!("  energy used : {}", info.energy_usage);
+    println!("  energy used : {}", info.receipt.energy_usage);
     println!("  energy fee  : {} sun", info.energy_fee.as_sun());
 
     let issued = provider.get_asset_issue_by_account(issuer).await?;

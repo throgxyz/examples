@@ -30,7 +30,7 @@
 
 use tronz::{
     LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider,
-    providers::types::{Permission, PermissionKey},
+    providers::types::{ContractKind, OperationSet, Permission, PermissionKey},
 };
 
 #[tokio::main]
@@ -78,8 +78,8 @@ async fn main() -> anyhow::Result<()> {
     }
 
     //
-    // Add a 1-of-2 active permission: either the primary key OR the second key
-    // can authorize transactions unilaterally (threshold=1, each key weight=1).
+    // Add a 1-of-2 active permission: either key can authorize TRX transfers
+    // unilaterally (threshold=1, each key weight=1).
 
     println!("\n=== Adding second key to active permissions ===");
     println!("  second key : {second_key}");
@@ -91,6 +91,7 @@ async fn main() -> anyhow::Result<()> {
         permission_name: "owner".to_owned(),
         threshold: 1,
         keys: vec![PermissionKey { address: me, weight: 1 }],
+        operations: OperationSet::empty(),
     };
 
     // Active permission: both keys, threshold 1 (1-of-2).
@@ -102,6 +103,7 @@ async fn main() -> anyhow::Result<()> {
             PermissionKey { address: me, weight: 1 },
             PermissionKey { address: second_key, weight: 1 },
         ],
+        operations: OperationSet::try_from([ContractKind::Transfer])?,
     };
 
     println!("\n  broadcasting permission update…");

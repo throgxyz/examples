@@ -82,7 +82,7 @@ async fn main() -> anyhow::Result<()> {
     println!("\n=== Receipt ===");
     println!("  status          : {:?}", info.status);
     println!("  contract result : {:?}", info.contract_result);
-    println!("  energy used     : {}", info.energy_usage);
+    println!("  energy used     : {}", info.receipt.energy_usage);
     println!("  energy fee      : {} sun", info.energy_fee.as_sun());
     if let Some(ref reason) = info.revert_reason {
         println!("  revert reason   : {reason}");

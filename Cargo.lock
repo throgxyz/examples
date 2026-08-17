@@ -1235,6 +1235,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "der"
+version = "0.8.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a69dedd701da44b0536442edf09c81a64b0ab97a7a4a5e3d1971f00027cbc63d"
+dependencies = [
+ "const-oid 0.10.2",
+ "zeroize",
+]
+
+[[package]]
 name = "deranged"
 version = "0.5.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1330,12 +1340,12 @@ version = "0.16.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ee27f32b5c5292967d2d4a9d7f1e0b0aed2c15daded5a60300e4abb9d8020bca"
 dependencies = [
- "der",
+ "der 0.7.10",
  "digest 0.10.7",
  "elliptic-curve",
  "rfc6979",
  "signature",
- "spki",
+ "spki 0.7.3",
 ]
 
 [[package]]
@@ -1431,6 +1441,16 @@ dependencies = [
  "anyhow",
  "hex",
  "serde_json",
+ "tokio",
+ "tronz",
+]
+
+[[package]]
+name = "examples-exchange"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "hex",
  "tokio",
  "tronz",
 ]
@@ -2562,8 +2582,8 @@ version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f950b2377845cebe5cf8b5165cb3cc1a5e0fa5cfa3e1f7f55707d8fd82e0a7b7"
 dependencies = [
- "der",
- "spki",
+ "der 0.7.10",
+ "spki 0.7.3",
 ]
 
 [[package]]
@@ -3095,7 +3115,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d3e97a565f76233a6003f9f5c54be1d9c5bdfa3eccfb189469f11ec4901c47dc"
 dependencies = [
  "base16ct",
- "der",
+ "der 0.7.10",
  "generic-array",
  "pkcs8",
  "subtle",
@@ -3266,6 +3286,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "sha3"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bc9bad02c26382724b2d2692c6f179285e4b54eeecd7968f52a50059c3c11759"
+dependencies = [
+ "digest 0.11.3",
+ "keccak 0.2.0",
+ "sponge-cursor",
+]
+
+[[package]]
 name = "sha3-asm"
 version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3340,8 +3371,24 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d91ed6c858b01f942cd56b37a94b3e0a1798290327d1236e4d9cf4eaca44d29d"
 dependencies = [
  "base64ct",
- "der",
+ "der 0.7.10",
 ]
+
+[[package]]
+name = "spki"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1d9efca8738c78ee9484207732f728b1ef517bbb1833d6fc0879ca898a522f6f"
+dependencies = [
+ "base64ct",
+ "der 0.8.1",
+]
+
+[[package]]
+name = "sponge-cursor"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3a0219bd7d979d58245a4f41f695e1ac9f8befdffadd7f61f1bae9e39abc6620"
 
 [[package]]
 name = "stable_deref_trait"
@@ -3732,9 +3779,9 @@ dependencies = [
 
 [[package]]
 name = "tronz"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3ace5dfa96296a09beb8ce587376d1ebfed9e417af0671f94aa7c36d8f1f4cd6"
+checksum = "618c56c37fa864c8633c6c0222c335eb4439cd4cf5771ff4a18950426738c879"
 dependencies = [
  "tronz-abi",
  "tronz-contract",
@@ -3747,9 +3794,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-abi"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0395110b265845e958ef8ef25ee60a0316a051527820680d3253310a4a7d0928"
+checksum = "ce3ab7653d004a2f43945728f618e74ef7bbbaf7eae2352295d1be06e626a4be"
 dependencies = [
  "alloy-json-abi",
  "thiserror 2.0.18",
@@ -3757,9 +3804,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-contract"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "470ff500216a654083431f94287eb9c3e4d55eaa9f6470e3da0a7ac67ad32a73"
+checksum = "c11cafdfac53b72ec366f34327b05023cec36dc3e6c0d1e7e0f5dbc0a7455a63"
 dependencies = [
  "alloy-dyn-abi",
  "alloy-json-abi",
@@ -3777,9 +3824,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-primitives"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "478ce1029cd6f87aada7e92e7089d05ae6a1f27286e00af4bed05406d978febb"
+checksum = "e95e6a3d197e49e89f1ab9bb0a6a3b2fc2d2adda76d8b50e3e38cdaa5857f55d"
 dependencies = [
  "alloy-primitives",
  "bs58",
@@ -3791,9 +3838,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-provider"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "659893871ac23ed2d63cba141b8a0633f9f3f360cad59e91e963761edf13cf71"
+checksum = "7a52a462dbb347dd6db53c87e7d599810f17fe30ece3a4248fe16192ca2ed669"
 dependencies = [
  "async-trait",
  "auto_impl",
@@ -3812,9 +3859,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-rpc-types"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c26e1feb4369cea213f468098c1a70dfbf51e2a56541b6e4d3302252fe187504"
+checksum = "4f02a10b71f357abed07d846b68612968ee70f68250b320a5b0bd8fae5f9c1a5"
 dependencies = [
  "prost",
  "prost-types",
@@ -3827,9 +3874,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-signer"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f77fba4c3f261a5b830709161c8927a2f35222b015eeb710eefa05381c867af3"
+checksum = "2a5faf3852f4ae675938d33dc0be4e1e41fd6590cf96166e4b0796fd5835658a"
 dependencies = [
  "aes",
  "alloy-dyn-abi",
@@ -3847,7 +3894,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2 0.11.0",
- "sha3 0.11.0",
+ "sha3 0.12.0",
  "thiserror 2.0.18",
  "tronz-primitives",
  "uuid",
@@ -3855,15 +3902,15 @@ dependencies = [
 
 [[package]]
 name = "tronz-signer-aws"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bcf449832582016d0ee8f43d16b336564fdf3632239d5f4bbd80f75a7b1ed650"
+checksum = "eef0c23a810454fbc4392e17750aa16b9b638f5fdc86bb88037e6e26f2488f37"
 dependencies = [
  "async-trait",
  "aws-sdk-kms",
  "hex",
  "k256",
- "spki",
+ "spki 0.8.0",
  "thiserror 2.0.18",
  "tracing",
  "tronz-primitives",
@@ -3872,9 +3919,9 @@ dependencies = [
 
 [[package]]
 name = "tronz-sol-macro"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "23b0f14794a94d502f722ba72cfffc16c1100e185da0535ec0aa673bbaf02734"
+checksum = "cbfa14dadb41928a5fe123605552dd3dd14c51c6136a01ca99fdb2de742764b1"
 dependencies = [
  "alloy-json-abi",
  "proc-macro2",
