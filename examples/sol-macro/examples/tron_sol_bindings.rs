@@ -15,6 +15,9 @@
 //! TRON_CONTRACT=<addr> cargo run -p examples-sol-macro --example tron_sol_bindings
 //! ```
 
+// `tron_sol!` generates explicit field initializers from Solidity parameter names.
+#![allow(clippy::redundant_field_names)]
+
 use tronz::{
     ProviderBuilder, TRONGRID_NILE,
     contract::tron_sol,

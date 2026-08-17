@@ -26,6 +26,9 @@
 //! TRON_BLOCK=<num>  cargo run -p examples-sol-macro --example tron_sol_events
 //! ```
 
+// `tron_sol!` generates explicit field initializers from Solidity parameter names.
+#![allow(clippy::redundant_field_names)]
+
 use tronz::{
     ProviderBuilder, TRONGRID_NILE,
     contract::tron_sol,
