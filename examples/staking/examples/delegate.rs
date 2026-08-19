@@ -10,7 +10,7 @@
 //! Optional env:
 //!   TRON_API_KEY     — TronGrid API key
 //!   TRON_FREEZE_SUN  — amount to delegate in sun (default: 10 TRX = 10_000_000)
-//!   TRON_LOCK_DAYS   — lock delegation for N days (0–10; default: 0 = no lock)
+//!   TRON_LOCK_DAYS   — lock delegation for N days (0–30; default: 0 = no lock)
 //!
 //! ```bash
 //! TRON_PRIVATE_KEY=<key> TRON_DELEGATE_TO=<addr> cargo run -p examples-staking --example delegate
@@ -80,11 +80,12 @@ async fn main() -> anyhow::Result<()> {
         provider.delegate_resource().resource(ResourceCode::Energy).amount(amount).to(receiver);
 
     if lock_days > 0 {
-        // Lock period is in seconds: 1 day = 86_400 seconds.
-        // Max lock is 10 days (864_000 seconds).
-        let lock_secs = lock_days.min(10) * 86_400;
-        builder = builder.lock_period(lock_secs);
-        println!("  lock period : {lock_days} day(s) ({lock_secs}s)");
+        // `lock_period` counts blocks (~3s each), not seconds: 1 day = 28_800 blocks.
+        // The cap is chain parameter #78 (`getMaxDelegateLockPeriod`); 864_000 blocks
+        // (30 days) is the documented maximum.
+        let lock_blocks = lock_days.min(30) * 28_800;
+        builder = builder.lock_period(lock_blocks);
+        println!("  lock period : {lock_days} day(s) ({lock_blocks} blocks)");
     }
 
     let pending = builder.send().await?;
