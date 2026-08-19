@@ -6,8 +6,8 @@
 //! cargo run -p examples-signers --example signer_mnemonic
 //! ```
 //!
-//! WARNING: This example prints private keys to stdout — only use it for
-//! throwaway testnet keys.
+//! The fixed phrase below is a public BIP-39 test vector. Never fund addresses
+//! derived from it or print production mnemonic phrases.
 
 use tronz::{MnemonicBuilder, coins_bip39::English};
 
@@ -18,7 +18,7 @@ fn main() -> anyhow::Result<()> {
     let signer = MnemonicBuilder::<English>::default().phrase(phrase).index(0)?.build()?;
 
     println!("=== Derive from phrase ===");
-    println!("  phrase  : {phrase}");
+    println!("  source  : public BIP-39 test vector");
     println!("  index   : 0");
     println!("  path    : m/44'/195'/0'/0/0");
     println!("  address : {}", signer.address());
@@ -42,7 +42,6 @@ fn main() -> anyhow::Result<()> {
         MnemonicBuilder::<English>::default().word_count(24).build_random()?;
 
     println!("\n=== Random 24-word mnemonic ===");
-    println!("  phrase  : {new_phrase}");
     println!("  address : {}", new_signer.address());
     println!("  words   : {}", new_phrase.split_whitespace().count());
 

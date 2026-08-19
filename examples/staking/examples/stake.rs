@@ -32,7 +32,6 @@ async fn main() -> anyhow::Result<()> {
         .map(|s| s.parse().expect("valid TRON_DELEGATE_TO address"));
 
     let provider = ProviderBuilder::new()
-        .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
         .connect_grpc(TRONGRID_NILE)

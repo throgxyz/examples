@@ -1,8 +1,9 @@
 //! Activate a new account on the Nile testnet.
 //!
-//! On TRON, a key pair only becomes a real account once it has received at
-//! least 1 TRX. Activation is a one-time transaction paid for by an existing
-//! funded account.
+//! An address becomes activated when it receives any amount of TRX or TRC-10,
+//! or when an existing account explicitly creates it. The sender pays the
+//! network's account-creation fee separately from the transferred amount and
+//! may also pay for Bandwidth when its available Bandwidth is insufficient.
 //!
 //! Required env:
 //!   TRON_PRIVATE_KEY — funded account paying for activation
@@ -17,8 +18,8 @@
 
 use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx};
 
-/// Cost of activating a new account (1 TRX).
-const ACTIVATION_FEE_SUN: i64 = 1_000_000;
+/// Amount delivered to the new account; independent of network activation fees.
+const TRANSFER_AMOUNT_SUN: i64 = 1;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -31,7 +32,6 @@ async fn main() -> anyhow::Result<()> {
     let new_addr: tronz::Address = new_addr_str.parse()?;
 
     let provider = ProviderBuilder::new()
-        .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
         .connect_grpc(TRONGRID_NILE)
@@ -42,13 +42,6 @@ async fn main() -> anyhow::Result<()> {
     println!("  address : {payer}");
     println!("  balance : {} TRX", payer_account.balance);
 
-    if payer_account.balance < Trx::from_sun(ACTIVATION_FEE_SUN)? {
-        anyhow::bail!(
-            "payer balance too low: need at least {} TRX",
-            ACTIVATION_FEE_SUN as f64 / 1_000_000.0
-        );
-    }
-
     let target = provider.get_account(new_addr).await?;
     println!("\n=== Target account {} ===", new_addr);
     if target.is_activated {
@@ -58,11 +51,15 @@ async fn main() -> anyhow::Result<()> {
     println!("  not yet activated");
 
     //
-    // Sending TRX to an address that doesn't exist automatically activates it.
-    // The first transfer is the activation transaction.
+    // Sending any positive TRX amount to an address that does not exist
+    // activates it. The transferred amount is not the activation fee: the
+    // sender also pays the chain's account-creation fee and may pay a Bandwidth
+    // burn fee. Those values are governance-controlled chain parameters, so the
+    // example deliberately does not hard-code them.
 
-    let amount = Trx::from_sun(ACTIVATION_FEE_SUN)?;
+    let amount = Trx::from_sun(TRANSFER_AMOUNT_SUN)?;
     println!("\n=== Activating with {} ===", amount);
+    println!("  network activation fees are charged separately");
     println!("  broadcasting…");
 
     let pending = provider.send_trx().to(new_addr).amount(amount).send().await?;

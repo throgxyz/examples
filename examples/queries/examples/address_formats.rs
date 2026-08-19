@@ -70,9 +70,8 @@ fn main() -> anyhow::Result<()> {
     let signer = LocalSigner::from_hex(demo_key)?;
     let derived = signer.address();
     println!("\n=== Derive address from private key ===");
-    println!("  private key : {demo_key}");
-    println!("  address     : {derived}");
-    println!("  hex         : {}", derived.to_hex());
+    println!("  address : {derived}");
+    println!("  hex     : {}", derived.to_hex());
 
     Ok(())
 }

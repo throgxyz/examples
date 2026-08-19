@@ -72,7 +72,6 @@ async fn main() -> anyhow::Result<()> {
         .unwrap_or(U256::from(1u64));
 
     let provider = ProviderBuilder::new()
-        .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
         .connect_grpc(TRONGRID_NILE)

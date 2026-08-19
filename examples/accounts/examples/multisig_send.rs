@@ -48,7 +48,6 @@ async fn main() -> anyhow::Result<()> {
     let signer_addresses: Vec<_> = wallet.signer_addresses().collect();
 
     let provider = ProviderBuilder::new()
-        .with_recommended_fillers()
         .wallet(wallet.clone())
         .maybe_api_key(api_key)
         .connect_grpc(TRONGRID_NILE)

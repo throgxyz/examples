@@ -35,7 +35,6 @@ async fn main() -> anyhow::Result<()> {
     let receiver: tronz::Address = to_str.parse()?;
 
     let provider = ProviderBuilder::new()
-        .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
         .connect_grpc(TRONGRID_NILE)

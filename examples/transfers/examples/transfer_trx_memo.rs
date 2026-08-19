@@ -6,15 +6,16 @@
 //!
 //! Required env:
 //!   TRON_PRIVATE_KEY — hex private key
+//!   TRON_TO          — recipient address
 //!
 //! Optional env:
 //!   TRON_API_KEY     — TronGrid API key
-//!   TRON_TO          — recipient (defaults to a well-known Nile address)
 //!   TRON_AMOUNT_SUN  — amount in sun (default: 1 sun)
 //!   TRON_MEMO        — memo string (default: "tronz example transfer")
 //!
 //! ```bash
-//! TRON_PRIVATE_KEY=<key> cargo run -p examples-transfers --example transfer_trx_memo
+//! TRON_PRIVATE_KEY=<key> TRON_TO=<recipient> \
+//!   cargo run -p examples-transfers --example transfer_trx_memo
 //! ```
 
 use tronz::{LocalSigner, ProviderBuilder, TRONGRID_NILE, TronProvider, Trx};
@@ -30,16 +31,12 @@ async fn main() -> anyhow::Result<()> {
     let signer = LocalSigner::from_hex(&key_hex)?;
     let from = signer.address();
 
-    // Default to a well-known Nile address; TRON does not allow self-transfers.
-    let to: tronz::Address = std::env::var("TRON_TO")
-        .ok()
-        .map(|s| s.parse().expect("valid TRON_TO address"))
-        .unwrap_or_else(|| "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t".parse().unwrap());
+    // TRON rejects self-transfers, so provide a different Nile recipient.
+    let to: tronz::Address = std::env::var("TRON_TO").expect("TRON_TO env var required").parse()?;
 
     let amount = Trx::from_sun(amount_sun)?;
 
     let provider = ProviderBuilder::new()
-        .with_recommended_fillers()
         .with_signer(signer)
         .maybe_api_key(api_key)
         .connect_grpc(TRONGRID_NILE)
